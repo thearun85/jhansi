@@ -98,16 +98,7 @@ class Parser:
             return Assign(name, value)
             
         elif tok.kind == TokenType.IF:
-            self.eat(TokenType.IF)
-            condition = self.parse_expr()
-            body = self.parse_block()
-            if self.peek().kind == TokenType.ELSE:
-                self.eat(TokenType.ELSE)
-                else_body = self.parse_block()
-            else:
-                else_body = None
-            
-            return IF(condition, body, else_body)
+            return self.parse_if()
             
         elif tok.kind == TokenType.WHILE:
             self.eat(TokenType.WHILE)
@@ -118,6 +109,22 @@ class Parser:
         else:
             return self.parse_expr()
 
+    def parse_if(self) -> Node:
+        self.eat(TokenType.IF)
+        condition = self.parse_expr()
+        body = self.parse_block()
+        if self.peek().kind == TokenType.ELSE:
+            self.eat(TokenType.ELSE)
+            if self.peek().kind == TokenType.IF:
+                else_body = [self.parse_if()]
+            else:
+                else_body = self.parse_block()
+        else:
+            else_body = None
+        
+        return IF(condition, body, else_body)
+        
+    
     def parse_block(self) -> list[Node]:
         "Parse all statements between the left and right braces {}"
         nodes: list[Node] = []
