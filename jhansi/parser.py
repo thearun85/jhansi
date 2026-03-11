@@ -58,6 +58,22 @@ class While(Node):
     def __repr__(self) -> str:
         return f"While({self.condition}, {self.body})"
 
+class FuncDef(Node):
+    def __init__(self, name: str, params: list[str], body: list[Node]) -> None:
+        self.name: str = name
+        self.params: list[str] = params
+        self.body: list[Node] = body
+
+    def __repr__(self) -> str:
+        return (f"FuncDef({self.name}, {self.params}, {self.body})")
+
+class Return(Node):
+    def __init__(self, expr: Node) -> None:
+        self.expr: Node = expr
+
+    def __repr__(self) -> str:
+        return f"Return({self.expr})"
+        
 class Parser:
     def __init__(self, tokens: list[Token]) -> None:
         "Initialize the parser with the tokens and point to first token."
@@ -84,10 +100,28 @@ class Parser:
         "Parse a program until EOF is encountered and return a list of nodes for evaluation"
         nodes: list[Node] = []
         while self.peek().kind != TokenType.EOF:
-            nodes.append(self.parse_statement())
+            if self.peek().kind == TokenType.FUNC:
+                node = self.parse_function()
+            else:
+                node = self.parse_statement()
+            nodes.append(node)
             
         return nodes
-    
+
+    def parse_function(self) -> Node:
+        self.eat(TokenType.FUNC)
+        name = str(self.eat(TokenType.IDENT).value)
+        self.eat(TokenType.LPAREN)
+        params:list[str] = []
+        while self.peek().kind != TokenType.RPAREN:
+            name = str(self.eat(TokenType.IDENT).value)
+            params.append(name)
+            if self.peek().kind == TokenType.COMMA:
+                self.eat(TokenType.COMMA)
+        self.eat(TokenType.RPAREN)
+        body = self.parse_block()
+        return FuncDef(name, params, body)
+        
     def parse_statement(self) -> Node:
         tok = self.peek()
         if tok.kind == TokenType.IDENT and self.peek_next().kind == TokenType.EQUAL:
@@ -106,6 +140,10 @@ class Parser:
             body = self.parse_block()
             return While(condition, body)
             
+        elif tok.kind == TokenType.RETURN:
+            self.eat(TokenType.RETURN)
+            expr = self.parse_expr()
+            return Return(expr)
         else:
             return self.parse_expr()
 

@@ -34,12 +34,16 @@ class TokenType(Enum):
     IF = auto()
     ELSE = auto()
     WHILE = auto()
+    FUNC = auto() # function declaration
+    RETURN = auto()
+    
     
     # Code organizers
     LPAREN = auto() # ( 
     RPAREN = auto() # ) Used to enclose expressions
     LBRACE = auto() # {
     RBRACE = auto() # }
+    COMMA = auto() # Params seperator
 
     EOF = auto() # End of File indicator
 
@@ -77,6 +81,10 @@ def lex(src: str) -> list[Token]:
                 tokens.append(Token(TokenType.ELSE, 'else'))
             elif word.lower() == 'while':
                 tokens.append(Token(TokenType.WHILE, 'while'))
+            elif word.lower() == 'func':
+                tokens.append(Token(TokenType.FUNC, 'func'))
+            elif word.lower() == 'return':
+                tokens.append(Token(TokenType.RETURN, 'return'))
             else:
                 tokens.append(Token(TokenType.IDENT, word))
         # Arithmetic operation starts
@@ -126,6 +134,10 @@ def lex(src: str) -> list[Token]:
         elif c == '}':
             tokens.append(Token(TokenType.RBRACE, c))
             i+=1
+        elif c == ',':
+            tokens.append(Token(TokenType.COMMA, c))
+            i+=1
+
 
         elif c == '=':
             i+=1
