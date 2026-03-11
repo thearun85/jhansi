@@ -56,11 +56,20 @@ class Parser:
         self.pos+=1
         return tok
 
+    def parse_program(self) -> list[Node]:
+        "Parse a program until EOF is encountered and return a list of nodes for evaluation"
+        nodes: list[Node] = []
+        while self.peek().kind != TokenType.EOF:
+            nodes.append(self.parse_statement())
+            
+        return nodes
+    
     def parse_statement(self) -> Node:
         if self.peek().kind == TokenType.IDENT and self.peek_next().kind == TokenType.EQUAL:
             name = str(self.eat(TokenType.IDENT).value)
             self.eat(TokenType.EQUAL)
             value = self.parse_expr()
+            self.eat(TokenType.SEMI) # Consume the statement seperator
             return Assign(name, value)
         else:
             return self.parse_expr()
@@ -111,4 +120,4 @@ if __name__ == '__main__':
     tokens = lex(src)
     logger.info(f"[Jhansi] Tokens List -> {tokens}\n")
     p = Parser(tokens)
-    logger.info(f"[Jhansi] Parsed Nodes -> {p.parse_statement()}\n")
+    logger.info(f"[Jhansi] Parsed Nodes -> {p.parse_program()}\n")

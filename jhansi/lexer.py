@@ -20,6 +20,7 @@ class TokenType(Enum):
     
     # Assignments
     EQUAL = auto() # Assign a value to a variable or identifier
+    SEMI = auto() #  Statement seperator
     
     # Code organizers
     LPAREN = auto() # ( 
@@ -77,6 +78,10 @@ def lex(src: str) -> list[Token]:
         elif c == '=':
             tokens.append(Token(TokenType.EQUAL, c))
             i+=1
+        elif c == ';':
+            tokens.append(Token(TokenType.SEMI, c))
+            i+=1
+
         else:
             logger.error(f"[Jhansi] Unsupported Token: '{c}'")
             raise SyntaxError(f"[Jhansi] Unsupported Token: '{c}'")

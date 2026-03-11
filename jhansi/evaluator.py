@@ -42,10 +42,11 @@ if __name__ == '__main__':
     tokens = lex(src)
     logger.info(f"[Jhansi] Tokens List -> {tokens}\n")
     p = Parser(tokens)
-    node = p.parse_statement()
-    logger.info(f"[Jhansi] Parsed node is {node}\n")
+    nodes = p.parse_program()
+    logger.info(f"[Jhansi] Parsed node is {nodes}\n")
     e = Evaluator()
-    logger.info(f"[Jhansi] Evaluated result is {e.evaluate(node)}")
+    for node in nodes:
+        logger.info(f"[Jhansi] Evaluated result is {e.evaluate(node)}")
     logger.info(f"[Jhansi] Symbol table is populated as:")
     for k, v in e.symbols.items():
         logger.info(f"[Jhansi] {k}:{v}")
