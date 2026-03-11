@@ -34,8 +34,8 @@ def lex(src: str) -> list[Token]:
             tokens.append(Token(TokenType.PLUS, c))
             i+=1
         else:
-            print(f"[Jhansi] Unsupported Token: {c}")
-            raise SyntaxError(f"[Jhansi] Unsupported Token: {c}")
+            print(f"[Jhansi] Unsupported Token: '{c}'")
+            raise SyntaxError(f"[Jhansi] Unsupported Token: '{c}'")
     # Add an EOF indicator to the list of tokens
     tokens.append(Token(TokenType.EOF, ""))
     return tokens
