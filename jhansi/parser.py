@@ -49,7 +49,15 @@ class IF(Node):
 
     def __repr__(self) -> str:
         return f"IF({self.condition}, {self.body}, {self.else_body})"
-        
+
+class While(Node):
+    def __init__(self, condition: Node, body: list[Node]) -> None:
+        self.condition: Node = condition
+        self.body: list[Node] = body
+
+    def __repr__(self) -> str:
+        return f"While({self.condition}, {self.body})"
+
 class Parser:
     def __init__(self, tokens: list[Token]) -> None:
         "Initialize the parser with the tokens and point to first token."
@@ -100,6 +108,13 @@ class Parser:
                 else_body = None
             
             return IF(condition, body, else_body)
+            
+        elif tok.kind == TokenType.WHILE:
+            self.eat(TokenType.WHILE)
+            condition = self.parse_expr()
+            body = self.parse_block()
+            return While(condition, body)
+            
         else:
             return self.parse_expr()
 
