@@ -79,6 +79,6 @@ if __name__ == '__main__':
     else:
         src = "3+4"
     tokens = lex(src)
-    print(f"[Jhansi] Tokens List -> {tokens}\n")
+    logger.info(f"[Jhansi] Tokens List -> {tokens}\n")
     p = Parser(tokens)
-    print(f"[Jhansi] Parsed Nodes -> {p.parse_expr()}\n")
+    logger.info(f"[Jhansi] Parsed Nodes -> {p.parse_expr()}\n")

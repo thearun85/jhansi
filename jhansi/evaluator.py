@@ -1,6 +1,8 @@
 from .lexer import lex
 from .parser import Parser, Node, Number, BinOp
-
+import logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 # Evaluate a nested node and return the final result
 def evaluate(node: Node) -> int:
     
@@ -23,8 +25,8 @@ if __name__ == '__main__':
     else:
         src = "3+4"
     tokens = lex(src)
-    print(f"[Jhansi] Tokens List -> {tokens}\n")
+    logger.info(f"[Jhansi] Tokens List -> {tokens}\n")
     p = Parser(tokens)
     node = p.parse_expr()
-    print(f"[Jhansi] Parsed node is {node}\n")
-    print(f"[Jhansi] Evaluated result is {evaluate(node)}")
+    logger.info(f"[Jhansi] Parsed node is {node}\n")
+    logger.info(f"[Jhansi] Evaluated result is {evaluate(node)}")

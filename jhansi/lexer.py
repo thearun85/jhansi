@@ -1,6 +1,8 @@
 from enum import Enum, auto
 from dataclasses import dataclass
-
+import logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 # Definition for supported Token Types
 class TokenType(Enum):
 
@@ -43,7 +45,7 @@ def lex(src: str) -> list[Token]:
             tokens.append(Token(TokenType.RPAREN, c))
             i+=1
         else:
-            print(f"[Jhansi] Unsupported Token: '{c}'")
+            logger.error(f"[Jhansi] Unsupported Token: '{c}'")
             raise SyntaxError(f"[Jhansi] Unsupported Token: '{c}'")
     # Add an EOF indicator to the list of tokens
     tokens.append(Token(TokenType.EOF, ""))
@@ -56,4 +58,4 @@ if __name__ == '__main__':
     else:
         src = "3+4"
     tokens = lex(src)
-    print(f"[Jhansi] Tokens list -> {tokens}")
+    logger.info(f"[Jhansi] Tokens list -> {tokens}")
