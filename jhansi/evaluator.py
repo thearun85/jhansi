@@ -13,6 +13,12 @@ def evaluate(node: Node) -> int:
         right = evaluate(node.right)
         if node.op == '+':
             return left+right
+        elif node.op == '-':
+            return left-right
+        elif node.op == '*':
+            return left*right
+        elif node.op == '/':
+            return left//right # Integer division
         else:
             raise SyntaxError(f"[Jhansi] Unsupported operator : {node.op}")
     else:

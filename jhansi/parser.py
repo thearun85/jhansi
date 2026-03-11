@@ -50,9 +50,18 @@ class Parser:
 
     def parse_addition(self) -> Node:
         "Return a BinOp node with the left operand, operator and the right operand"
+        left = self.parse_multiply()
+        while self.peek().kind in (TokenType.PLUS, TokenType.MINUS):
+            op = str(self.eat(self.peek().kind).value)
+            right = self.parse_multiply()
+            left = BinOp(left, op, right)
+        return left
+
+    def parse_multiply(self) -> Node:
+        "Return a BinOp node with the left operand, operator and the right operand"
         left = self.parse_primary()
-        while self.peek().kind == TokenType.PLUS:
-            op = str(self.eat(TokenType.PLUS).value)
+        while self.peek().kind in (TokenType.STAR, TokenType.SLASH):
+            op = str(self.eat(self.peek().kind).value)
             right = self.parse_primary()
             left = BinOp(left, op, right)
         return left

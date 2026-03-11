@@ -9,6 +9,9 @@ class TokenType(Enum):
     INT = auto() # Represents a digit
     
     PLUS = auto() # Addition
+    MINUS = auto() # Subtraction
+    STAR = auto() # Multiplication
+    SLASH = auto() # Division
 
     LPAREN = auto() # ( 
     RPAREN = auto() # ) Used to enclose expressions
@@ -37,6 +40,15 @@ def lex(src: str) -> list[Token]:
             tokens.append(Token(TokenType.INT, int(src[j:i])))
         elif c == '+':
             tokens.append(Token(TokenType.PLUS, c))
+            i+=1
+        elif c == '-':
+            tokens.append(Token(TokenType.MINUS, c))
+            i+=1
+        elif c == '*':
+            tokens.append(Token(TokenType.STAR, c))
+            i+=1
+        elif c == '/':
+            tokens.append(Token(TokenType.SLASH, c))
             i+=1
         elif c == '(':
             tokens.append(Token(TokenType.LPAREN, c))
