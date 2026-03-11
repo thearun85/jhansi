@@ -42,12 +42,13 @@ class Var(Node):
         return f"Var({self.name})"
 
 class IF(Node):
-    def __init__(self, condition: Node, body: list[Node]) -> None:
+    def __init__(self, condition: Node, body: list[Node], else_body: list[Node]|None) -> None:
         self.condition: Node = condition
         self.body: list[Node] = body
+        self.else_body: list[Node]|None = else_body
 
     def __repr__(self) -> str:
-        return f"IF({self.condition}, {self.body})"
+        return f"IF({self.condition}, {self.body}, {self.else_body})"
         
 class Parser:
     def __init__(self, tokens: list[Token]) -> None:
@@ -92,8 +93,13 @@ class Parser:
             self.eat(TokenType.IF)
             condition = self.parse_expr()
             body = self.parse_block()
+            if self.peek().kind == TokenType.ELSE:
+                self.eat(TokenType.ELSE)
+                else_body = self.parse_block()
+            else:
+                else_body = None
             
-            return IF(condition, body)
+            return IF(condition, body, else_body)
         else:
             return self.parse_expr()
 

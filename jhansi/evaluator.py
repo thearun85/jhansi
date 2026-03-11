@@ -59,7 +59,12 @@ class Evaluator:
                     result = self.evaluate(node)
                 return result
             else:
-                return 0
+                if node.else_body:
+                    for node in node.else_body:
+                        result = self.evaluate(node)
+                    return result
+                else:
+                    return 0
         else:
             raise SyntaxError(f"[Jhansi] Unsupported Node: {node}")
 

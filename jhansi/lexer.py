@@ -32,6 +32,7 @@ class TokenType(Enum):
 
     # Flow Controls
     IF = auto()
+    ELSE = auto()
     
     # Code organizers
     LPAREN = auto() # ( 
@@ -71,6 +72,8 @@ def lex(src: str) -> list[Token]:
             word = src[j:i]
             if word.lower() == 'if':
                 tokens.append(Token(TokenType.IF, 'if'))
+            elif word.lower() == 'else':
+                tokens.append(Token(TokenType.ELSE, 'else'))
             else:
                 tokens.append(Token(TokenType.IDENT, word))
         # Arithmetic operation starts
