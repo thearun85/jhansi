@@ -73,7 +73,15 @@ class Return(Node):
 
     def __repr__(self) -> str:
         return f"Return({self.expr})"
-        
+
+class FuncCall(Node):
+    def __init__(self, name: str, args: list[Node]) -> None:
+        self.name: str = name
+        self.args: list[Node] = args
+
+    def __repr__(self) -> str:
+        return f"FuncCall({self.name}, {self.args})"
+      
 class Parser:
     def __init__(self, tokens: list[Token]) -> None:
         "Initialize the parser with the tokens and point to first token."
@@ -110,7 +118,7 @@ class Parser:
 
     def parse_function(self) -> Node:
         self.eat(TokenType.FUNC)
-        name = str(self.eat(TokenType.IDENT).value)
+        func_name = str(self.eat(TokenType.IDENT).value)
         self.eat(TokenType.LPAREN)
         params:list[str] = []
         while self.peek().kind != TokenType.RPAREN:
@@ -120,7 +128,7 @@ class Parser:
                 self.eat(TokenType.COMMA)
         self.eat(TokenType.RPAREN)
         body = self.parse_block()
-        return FuncDef(name, params, body)
+        return FuncDef(func_name, params, body)
         
     def parse_statement(self) -> Node:
         tok = self.peek()
@@ -143,6 +151,7 @@ class Parser:
         elif tok.kind == TokenType.RETURN:
             self.eat(TokenType.RETURN)
             expr = self.parse_expr()
+            self.eat(TokenType.SEMI)
             return Return(expr)
         else:
             return self.parse_expr()
@@ -216,7 +225,18 @@ class Parser:
             return node
         elif tok.kind == TokenType.IDENT:
             name = str(self.eat(TokenType.IDENT).value)
-            return Var(name)
+            if self.peek().kind == TokenType.LPAREN:
+                self.eat(TokenType.LPAREN)
+                args: list[str] = []
+                while self.peek().kind != TokenType.RPAREN:
+                    args.append(self.parse_expr())
+                    if self.peek().kind == TokenType.COMMA:
+                        self.eat(TokenType.COMMA)
+                self.eat(TokenType.RPAREN)
+                return FuncCall(name, args)
+                    
+            else:
+                return Var(name)
         else:
             raise SyntaxError(f"[Jhansi] Unexpected Token: {tok.kind}")
 
