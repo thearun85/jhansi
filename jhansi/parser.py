@@ -34,6 +34,13 @@ class Assign(Node):
     def __repr__(self) -> str:
         return f"Assign({self.name}, {self.value})"
 
+class Var(Node):
+    def __init__(self, name: str) -> None:
+        self.name: str = name
+
+    def __repr__(self) -> str:
+        return f"Var({self.name})"
+        
 class Parser:
     def __init__(self, tokens: list[Token]) -> None:
         "Initialize the parser with the tokens and point to first token."
@@ -107,6 +114,9 @@ class Parser:
             node = self.parse_expr()
             self.eat(TokenType.RPAREN)
             return node
+        elif tok.kind == TokenType.IDENT:
+            name = str(self.eat(TokenType.IDENT).value)
+            return Var(name)
         else:
             raise SyntaxError(f"[Jhansi] Unexpected Token: {tok.kind}")
 
@@ -118,6 +128,5 @@ if __name__ == '__main__':
     else:
         src = "3+4"
     tokens = lex(src)
-    logger.info(f"[Jhansi] Tokens List -> {tokens}\n")
     p = Parser(tokens)
     logger.info(f"[Jhansi] Parsed Nodes -> {p.parse_program()}\n")
