@@ -83,7 +83,16 @@ class Parser:
         
     def parse_expr(self) -> Node:
         "Parse an expression, anything which is not a statement (which has no assignment)"
-        return self.parse_addition()
+        return self.parse_comparison()
+
+    def parse_comparison(self) -> Node:
+        "Return a BinOp node with the left operand, operator and the right operand"
+        left = self.parse_addition()
+        while self.peek().kind in (TokenType.GT, TokenType.GTEQ, TokenType.LT, TokenType.LTEQ, TokenType.EQEQ, TokenType.BANGEQ):
+            op = str(self.eat(self.peek().kind).value)
+            right = self.parse_addition()
+            left = BinOp(left, op, right)
+        return left
 
     def parse_addition(self) -> Node:
         "Return a BinOp node with the left operand, operator and the right operand"

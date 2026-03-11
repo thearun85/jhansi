@@ -23,6 +23,19 @@ class Evaluator:
                 return left*right
             elif node.op == '/':
                 return left//right # Integer division
+            elif node.op == '>':
+                return left>right
+            elif node.op == '>=':
+                return left>=right
+            elif node.op == '<':
+                return left<right
+            elif node.op == '<=':
+                return left<=right
+            elif node.op == '==':
+                return left==right
+            elif node.op == '!=':
+                return left!=right # Integer division
+
             else:
                 raise SyntaxError(f"[Jhansi] Unsupported operator : {node.op}")
         elif isinstance(node, Assign):

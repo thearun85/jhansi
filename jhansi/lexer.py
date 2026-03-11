@@ -16,6 +16,14 @@ class TokenType(Enum):
     STAR = auto() # Multiplication
     SLASH = auto() # Division
 
+    # Comparison operators
+    GT = auto()
+    GTEQ = auto()
+    LT = auto()
+    LTEQ = auto()
+    EQEQ = auto()
+    BANGEQ = auto()
+
     IDENT = auto() # Variable identifiers or names
     
     # Assignments
@@ -56,7 +64,7 @@ def lex(src: str) -> list[Token]:
             # Accumulate entire length of the string
                 i+=1
             tokens.append(Token(TokenType.IDENT, str(src[j:i])))
-
+        # Arithmetic operation starts
         elif c == '+':
             tokens.append(Token(TokenType.PLUS, c))
             i+=1
@@ -69,6 +77,28 @@ def lex(src: str) -> list[Token]:
         elif c == '/':
             tokens.append(Token(TokenType.SLASH, c))
             i+=1
+        # Arithmetic operation ends
+        # Comparison operation starts
+        elif c == '>':
+            i+=1
+            if src[i] == '=':
+                tokens.append(Token(TokenType.GTEQ, '>='))
+                i+=1
+            else:
+                tokens.append(Token(TokenType.GT, '>'))
+        elif c == '<':
+            i+=1
+            if src[i] == '=':
+                tokens.append(Token(TokenType.LTEQ, '<='))
+                i+=1
+            else:
+                tokens.append(Token(TokenType.LT, '<'))
+        elif c == '!':
+            i+=1
+            if src[i] == '=':
+                tokens.append(Token(TokenType.BANGEQ, '!='))
+                i+=1
+        # Comparison operation ends
         elif c == '(':
             tokens.append(Token(TokenType.LPAREN, c))
             i+=1
@@ -76,8 +106,12 @@ def lex(src: str) -> list[Token]:
             tokens.append(Token(TokenType.RPAREN, c))
             i+=1
         elif c == '=':
-            tokens.append(Token(TokenType.EQUAL, c))
             i+=1
+            if src[i] == '=':
+                tokens.append(Token(TokenType.EQEQ, '=='))
+                i+=1
+            else:
+                tokens.append(Token(TokenType.EQUAL, '='))
         elif c == ';':
             tokens.append(Token(TokenType.SEMI, c))
             i+=1
