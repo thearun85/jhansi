@@ -8,6 +8,9 @@ class TokenType(Enum):
     
     PLUS = auto() # Addition
 
+    LPAREN = auto() # ( 
+    RPAREN = auto() # ) Used to enclose expressions
+
     EOF = auto() # End of File indicator
 
 # Represents each individual token
@@ -32,6 +35,12 @@ def lex(src: str) -> list[Token]:
             tokens.append(Token(TokenType.INT, int(src[j:i])))
         elif c == '+':
             tokens.append(Token(TokenType.PLUS, c))
+            i+=1
+        elif c == '(':
+            tokens.append(Token(TokenType.LPAREN, c))
+            i+=1
+        elif c == ')':
+            tokens.append(Token(TokenType.RPAREN, c))
             i+=1
         else:
             print(f"[Jhansi] Unsupported Token: '{c}'")

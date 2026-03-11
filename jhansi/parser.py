@@ -1,5 +1,8 @@
 from .lexer import lex, Token, TokenType
 
+import logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 # Represents a Base node which can be extended by other classes
 class Node:
     pass
@@ -27,6 +30,7 @@ class Parser:
         "Initialize the parser with the tokens and point to first token."
         self.tokens: list[Token] = tokens
         self.pos: int = 0
+        logger.info(f"[Jhansi] Parser initialized with {tokens} and {self.pos}")
 
     def peek(self) -> Token:
         "Return the first token"
@@ -42,11 +46,7 @@ class Parser:
         
     def parse_expr(self) -> Node:
         "Parse an expression, anything which is not a statement (which has no assignment)"
-        node: Node = Node()
-        while self.peek().kind != TokenType.EOF:
-            # Loop until end of file
-            node = self.parse_addition()
-        return node
+        return self.parse_addition()
 
     def parse_addition(self) -> Node:
         "Return a BinOp node with the left operand, operator and the right operand"
@@ -63,6 +63,11 @@ class Parser:
         if tok.kind == TokenType.INT:
             self.eat(TokenType.INT)
             return Number(int(tok.value))
+        elif tok.kind == TokenType.LPAREN:
+            self.eat(TokenType.LPAREN)
+            node = self.parse_expr()
+            self.eat(TokenType.RPAREN)
+            return node
         else:
             raise SyntaxError(f"[Jhansi] Unexpected Token: {tok.kind}")
 
