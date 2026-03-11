@@ -29,10 +29,15 @@ class TokenType(Enum):
     # Assignments
     EQUAL = auto() # Assign a value to a variable or identifier
     SEMI = auto() #  Statement seperator
+
+    # Flow Controls
+    IF = auto()
     
     # Code organizers
     LPAREN = auto() # ( 
     RPAREN = auto() # ) Used to enclose expressions
+    LBRACE = auto() # {
+    RBRACE = auto() # }
 
     EOF = auto() # End of File indicator
 
@@ -63,7 +68,11 @@ def lex(src: str) -> list[Token]:
             # Identifiers can contain alphanumerics
             # Accumulate entire length of the string
                 i+=1
-            tokens.append(Token(TokenType.IDENT, str(src[j:i])))
+            word = src[j:i]
+            if word.lower() == 'if':
+                tokens.append(Token(TokenType.IF, 'if'))
+            else:
+                tokens.append(Token(TokenType.IDENT, word))
         # Arithmetic operation starts
         elif c == '+':
             tokens.append(Token(TokenType.PLUS, c))
@@ -105,6 +114,13 @@ def lex(src: str) -> list[Token]:
         elif c == ')':
             tokens.append(Token(TokenType.RPAREN, c))
             i+=1
+        elif c == '{':
+            tokens.append(Token(TokenType.LBRACE, c))
+            i+=1
+        elif c == '}':
+            tokens.append(Token(TokenType.RBRACE, c))
+            i+=1
+
         elif c == '=':
             i+=1
             if src[i] == '=':

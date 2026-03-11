@@ -40,6 +40,14 @@ class Var(Node):
 
     def __repr__(self) -> str:
         return f"Var({self.name})"
+
+class IF(Node):
+    def __init__(self, condition: Node, body: list[Node]) -> None:
+        self.condition: Node = condition
+        self.body: list[Node] = body
+
+    def __repr__(self) -> str:
+        return f"IF({self.condition}, {self.body})"
         
 class Parser:
     def __init__(self, tokens: list[Token]) -> None:
@@ -72,14 +80,31 @@ class Parser:
         return nodes
     
     def parse_statement(self) -> Node:
-        if self.peek().kind == TokenType.IDENT and self.peek_next().kind == TokenType.EQUAL:
+        tok = self.peek()
+        if tok.kind == TokenType.IDENT and self.peek_next().kind == TokenType.EQUAL:
             name = str(self.eat(TokenType.IDENT).value)
             self.eat(TokenType.EQUAL)
             value = self.parse_expr()
             self.eat(TokenType.SEMI) # Consume the statement seperator
             return Assign(name, value)
+            
+        elif tok.kind == TokenType.IF:
+            self.eat(TokenType.IF)
+            condition = self.parse_expr()
+            body = self.parse_block()
+            
+            return IF(condition, body)
         else:
             return self.parse_expr()
+
+    def parse_block(self) -> list[Node]:
+        "Parse all statements between the left and right braces {}"
+        nodes: list[Node] = []
+        self.eat(TokenType.LBRACE)
+        while self.peek().kind != TokenType.RBRACE:
+            nodes.append(self.parse_statement())
+        self.eat(TokenType.RBRACE)
+        return nodes
         
     def parse_expr(self) -> Node:
         "Parse an expression, anything which is not a statement (which has no assignment)"

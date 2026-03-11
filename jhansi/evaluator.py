@@ -1,5 +1,5 @@
 from .lexer import lex
-from .parser import Parser, Node, Number, BinOp, Assign, Var
+from .parser import Parser, Node, Number, BinOp, Assign, Var, IF
 import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -50,6 +50,16 @@ class Evaluator:
                 return result
             except KeyError:
                 raise NameError(f"[Jhansi] Undeclared variable '{node.name}'")
+                
+        elif isinstance(node, IF):
+            condition = self.evaluate(node.condition)
+            if condition:
+                nodes = node.body
+                for node in nodes:
+                    result = self.evaluate(node)
+                return result
+            else:
+                return 0
         else:
             raise SyntaxError(f"[Jhansi] Unsupported Node: {node}")
 
