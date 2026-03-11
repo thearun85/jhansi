@@ -25,6 +25,15 @@ class BinOp(Node):
     def __repr__(self) -> str:
         return f"BinOp({self.left}, {self.op}, {self.right})"
 
+# Represents a variable assignment with name and value
+class Assign(Node):
+    def __init__(self, name: str, value: Node) -> None:
+        self.name: str = name
+        self.value: Node = value
+
+    def __repr__(self) -> str:
+        return f"Assign({self.name}, {self.value})"
+
 class Parser:
     def __init__(self, tokens: list[Token]) -> None:
         "Initialize the parser with the tokens and point to first token."
@@ -36,6 +45,9 @@ class Parser:
         "Return the first token"
         return self.tokens[self.pos]
 
+    def peek_next(self) -> Token:
+        return self.tokens[self.pos+1]
+
     def eat(self, kind: TokenType) -> Token:
         "Return the first token and point to the next."
         tok = self.peek()
@@ -43,6 +55,15 @@ class Parser:
             raise SyntaxError(f"[Jhansi] Expected {kind}, got {tok.kind}")
         self.pos+=1
         return tok
+
+    def parse_statement(self) -> Node:
+        if self.peek().kind == TokenType.IDENT and self.peek_next().kind == TokenType.EQUAL:
+            name = str(self.eat(TokenType.IDENT).value)
+            self.eat(TokenType.EQUAL)
+            value = self.parse_expr()
+            return Assign(name, value)
+        else:
+            return self.parse_expr()
         
     def parse_expr(self) -> Node:
         "Parse an expression, anything which is not a statement (which has no assignment)"
@@ -90,4 +111,4 @@ if __name__ == '__main__':
     tokens = lex(src)
     logger.info(f"[Jhansi] Tokens List -> {tokens}\n")
     p = Parser(tokens)
-    logger.info(f"[Jhansi] Parsed Nodes -> {p.parse_expr()}\n")
+    logger.info(f"[Jhansi] Parsed Nodes -> {p.parse_statement()}\n")

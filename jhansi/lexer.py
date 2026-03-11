@@ -6,13 +6,22 @@ logger = logging.getLogger(__name__)
 # Definition for supported Token Types
 class TokenType(Enum):
 
+    # Datatypes
     INT = auto() # Represents a digit
+
     
+    # Arithmetic operators
     PLUS = auto() # Addition
     MINUS = auto() # Subtraction
     STAR = auto() # Multiplication
     SLASH = auto() # Division
 
+    IDENT = auto() # Variable identifiers or names
+    
+    # Assignments
+    EQUAL = auto() # Assign a value to a variable or identifier
+    
+    # Code organizers
     LPAREN = auto() # ( 
     RPAREN = auto() # ) Used to enclose expressions
 
@@ -38,6 +47,15 @@ def lex(src: str) -> list[Token]:
             # Accumulate entire length of the digit
                 i+=1
             tokens.append(Token(TokenType.INT, int(src[j:i])))
+        elif c.isalpha(): # Check if character starts with an alphabet
+            # Variable names or identifiers
+            j=i
+            while i < len(src) and src[i].isalnum():
+            # Identifiers can contain alphanumerics
+            # Accumulate entire length of the string
+                i+=1
+            tokens.append(Token(TokenType.IDENT, str(src[j:i])))
+
         elif c == '+':
             tokens.append(Token(TokenType.PLUS, c))
             i+=1
@@ -55,6 +73,9 @@ def lex(src: str) -> list[Token]:
             i+=1
         elif c == ')':
             tokens.append(Token(TokenType.RPAREN, c))
+            i+=1
+        elif c == '=':
+            tokens.append(Token(TokenType.EQUAL, c))
             i+=1
         else:
             logger.error(f"[Jhansi] Unsupported Token: '{c}'")
