@@ -7,7 +7,7 @@ def run(src: str) -> None:
     
     print(f"[Jhansi] Tokens List -> \n{tokens}")
 
-    node = Parser(tokens).parse_token()
+    node = Parser(tokens).parse_expr()
     print(f"[Jhansi] Node is ->\n{node}")
 
     result = evaluate(node)

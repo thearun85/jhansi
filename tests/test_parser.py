@@ -1,6 +1,6 @@
 from jhansi.token import TokenType, Token
 from jhansi.parser import Parser
-from jhansi.ast_nodes import Number
+from jhansi.ast_nodes import Number, BinaryOp
 import pytest
 import re
 
@@ -37,12 +37,24 @@ def test_eat_raise_error_message() -> None:
         assert p.peek().kind == TokenType.INT
         assert p.eat(TokenType.EOF)
 
-def test_parse_token_success() -> None:
+def test_parse_token_int() -> None:
     tokens = [Token(TokenType.INT, 5), Token(TokenType.EOF, "")]
     node = Parser(tokens).parse_token()
     assert node is not None
     assert isinstance(node, Number)
 
+def test_parse_addition() -> None:
+    tokens = [Token(TokenType.INT, 5), Token(TokenType.PLUS, '+'), Token(TokenType.INT, 7), Token(TokenType.EOF, "")]
+    node = Parser(tokens).parse_expr()
+    assert node is not None
+    assert isinstance(node, BinaryOp)
+
+def test_parse_subtraction() -> None:
+    tokens = [Token(TokenType.INT, 5), Token(TokenType.MINUS, '-'), Token(TokenType.INT, 7), Token(TokenType.EOF, "")]
+    node = Parser(tokens).parse_expr()
+    assert node is not None
+    assert isinstance(node, BinaryOp)
+    
 def test_parse_raise_syntax_error() -> None:
     tokens = [Token(TokenType.EOF, "")]
     with pytest.raises(SyntaxError):

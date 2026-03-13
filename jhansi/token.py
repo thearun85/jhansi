@@ -7,6 +7,11 @@ class TokenType(Enum):
     # Data types
     INT = auto() # Integer
 
+    # Arithmetic operators
+    # Addition and Subtraction are of the same precedence, so they can be processed left to right
+    PLUS = auto() # Addition
+    MINUS = auto() # Subtraction
+
     EOF = auto() # End of File
 
 @dataclass

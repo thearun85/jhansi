@@ -26,3 +26,11 @@ def test_invalid_character_at_start() -> None:
     src = "$123456"
     with pytest.raises(SyntaxError, match=r"unknown character: \$"):
         Lexer(src).tokenize()
+
+def test_arithmetic_op_success() -> None:
+    src = "+-" # Arithmetic operations
+    tokens = Lexer(src).tokenize()
+    assert tokens is not None
+    assert len(tokens) == 3
+    assert tokens[0].kind == TokenType.PLUS
+    assert tokens[1].kind == TokenType.MINUS
