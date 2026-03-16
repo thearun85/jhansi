@@ -14,6 +14,10 @@ def evaluate(node: Node) -> int:
                 return int(left+right)
             case '-':
                 return int(left-right)
+            case '*':
+                return int(left*right)
+            case '/':
+                return int(left//right) # Integer division
         raise SyntaxError(f"[Jhansi] Evaluator: unknown operator: {node.op}") 
     
     else:

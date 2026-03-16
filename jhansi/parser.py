@@ -28,12 +28,22 @@ class Parser:
 
     def parse_add_sub(self) -> Node:
         """Process the expression left to right. It expects two operands and an operator in between them. It will exit and return the resultant node when the operators exhaust."""
-        left = self.parse_token()
+        left = self.parse_mul_div()
         while self.peek().kind in (TokenType.PLUS, TokenType.MINUS):
             op = str(self.eat(self.peek().kind).value)
-            right = self.parse_token()
+            right = self.parse_mul_div()
             # Build the BinaryOp Node with 2 operands and an operator
             left = BinaryOp(left, op, right)
+        return left
+
+    def parse_mul_div(self) -> Node:
+        """Process the expression left to right. It expects two operands and an operator in between them. It will exit and return the resultant node when the operators exhaust."""
+        left = self.parse_token()
+        while self.peek().kind in (TokenType.STAR, TokenType.SLASH):
+            op = str(self.eat(self.peek().kind).value)
+            right = self.parse_token()
+            left = BinaryOp(left, op, right)
+
         return left
     
     def parse_token(self) -> Node:

@@ -38,6 +38,15 @@ class Lexer:
             elif c == '-':
                 tokens.append(Token(TokenType.MINUS, c))
                 self.pos+=1
+                
+            elif c == '*':
+                tokens.append(Token(TokenType.STAR, c))
+                self.pos+=1
+
+            elif c == '/':
+                tokens.append(Token(TokenType.SLASH, c))
+                self.pos+=1
+
             # Arithmetic operation ends
             else:
                 logger.error(f"[Jhansi] Lexer: unknown character: {c}")

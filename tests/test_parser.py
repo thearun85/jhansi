@@ -54,6 +54,18 @@ def test_parse_subtraction() -> None:
     node = Parser(tokens).parse_expr()
     assert node is not None
     assert isinstance(node, BinaryOp)
+
+def test_parse_multiply() -> None:
+    tokens = [Token(TokenType.INT, 5), Token(TokenType.PLUS, '*'), Token(TokenType.INT, 7), Token(TokenType.EOF, "")]
+    node = Parser(tokens).parse_expr()
+    assert node is not None
+    assert isinstance(node, BinaryOp)
+
+def test_parse_divide() -> None:
+    tokens = [Token(TokenType.INT, 10), Token(TokenType.MINUS, '/'), Token(TokenType.INT, 5), Token(TokenType.EOF, "")]
+    node = Parser(tokens).parse_expr()
+    assert node is not None
+    assert isinstance(node, BinaryOp)
     
 def test_parse_raise_syntax_error() -> None:
     tokens = [Token(TokenType.EOF, "")]

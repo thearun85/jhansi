@@ -28,9 +28,11 @@ def test_invalid_character_at_start() -> None:
         Lexer(src).tokenize()
 
 def test_arithmetic_op_success() -> None:
-    src = "+-" # Arithmetic operations
+    src = "+-*/" # Arithmetic operations
     tokens = Lexer(src).tokenize()
     assert tokens is not None
-    assert len(tokens) == 3
+    assert len(tokens) == 5
     assert tokens[0].kind == TokenType.PLUS
     assert tokens[1].kind == TokenType.MINUS
+    assert tokens[2].kind == TokenType.STAR
+    assert tokens[3].kind == TokenType.SLASH

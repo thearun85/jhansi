@@ -11,6 +11,8 @@ class TokenType(Enum):
     # Addition and Subtraction are of the same precedence, so they can be processed left to right
     PLUS = auto() # Addition
     MINUS = auto() # Subtraction
+    STAR = auto() # Multiplication
+    SLASH = auto() # Division
 
     EOF = auto() # End of File
 
