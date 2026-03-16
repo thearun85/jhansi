@@ -36,3 +36,11 @@ def test_arithmetic_op_success() -> None:
     assert tokens[1].kind == TokenType.MINUS
     assert tokens[2].kind == TokenType.STAR
     assert tokens[3].kind == TokenType.SLASH
+
+def test_expression_wrapper() -> None:
+    src = "()"
+    tokens = Lexer(src).tokenize()
+    assert tokens is not None
+    assert len(tokens) == 3
+    assert tokens[0].kind == TokenType.LPAREN
+    assert tokens[1].kind == TokenType.RPAREN

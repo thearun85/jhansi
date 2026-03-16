@@ -53,5 +53,11 @@ class Parser:
             self.eat(TokenType.INT)
             return Number(int(tok.value))
 
+        elif self.peek().kind == TokenType.LPAREN:
+            self.eat(TokenType.LPAREN)
+            expr = self.parse_expr()
+            self.eat(TokenType.RPAREN)
+            return expr
+
         logger.error(f"[Jhansi] Parser: Unexpected Token: {tok.kind}")
         raise SyntaxError(f"[Jhansi] Parser: Unexpected Token: {tok.kind}")

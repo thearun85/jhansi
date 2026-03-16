@@ -14,6 +14,10 @@ class TokenType(Enum):
     STAR = auto() # Multiplication
     SLASH = auto() # Division
 
+
+    LPAREN = auto() # (
+    RPAREN = auto() # )
+
     EOF = auto() # End of File
 
 @dataclass

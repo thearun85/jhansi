@@ -47,6 +47,15 @@ class Lexer:
                 tokens.append(Token(TokenType.SLASH, c))
                 self.pos+=1
 
+            elif c == '(':
+                tokens.append(Token(TokenType.LPAREN, c))
+                self.pos+=1
+
+            elif c == ')':
+                tokens.append(Token(TokenType.RPAREN, c))
+                self.pos+=1
+
+
             # Arithmetic operation ends
             else:
                 logger.error(f"[Jhansi] Lexer: unknown character: {c}")
