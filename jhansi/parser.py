@@ -3,7 +3,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 from .token import Token, TokenType
-from .ast_nodes import Node, Number, BinaryOp
+from .ast_nodes import Node, Number, BinaryOp, UnaryOp
 class Parser:
     def __init__(self, tokens: list[Token]) -> None:
         self.tokens: list[Token] = tokens
@@ -38,13 +38,20 @@ class Parser:
 
     def parse_mul_div(self) -> Node:
         """Process the expression left to right. It expects two operands and an operator in between them. It will exit and return the resultant node when the operators exhaust."""
-        left = self.parse_token()
+        left = self.parse_unary()
         while self.peek().kind in (TokenType.STAR, TokenType.SLASH):
             op = str(self.eat(self.peek().kind).value)
-            right = self.parse_token()
+            right = self.parse_unary()
             left = BinaryOp(left, op, right)
 
         return left
+
+    def parse_unary(self) -> Node:
+        if self.peek().kind == TokenType.MINUS:
+            self.eat(TokenType.MINUS)
+            right = self.parse_unary()
+            return UnaryOp('-', right)
+        return self.parse_token()
     
     def parse_token(self) -> Node:
         """This is the innermost leaf node. It deals with the basic operand nodes like numbers and variables."""

@@ -16,3 +16,11 @@ class BinaryOp(Node):
 
     def __repr__(self) -> str:
         return f"BinaryOp({self.left} {self.op} {self.right})"
+
+class UnaryOp(Node):
+    def __init__(self, op: str, right: Node) -> None:
+        self.op : str = op
+        self.right: Node = right
+
+    def __repr__(self) ->str:
+        return f"Unary({self.op} {self.right})"

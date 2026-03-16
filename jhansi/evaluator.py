@@ -1,4 +1,4 @@
-from .ast_nodes import Node, Number, BinaryOp
+from .ast_nodes import Node, Number, BinaryOp, UnaryOp
 
 def evaluate(node: Node) -> int:
     """Process the operation and return the result."""
@@ -19,6 +19,8 @@ def evaluate(node: Node) -> int:
             case '/':
                 return int(left//right) # Integer division
         raise SyntaxError(f"[Jhansi] Evaluator: unknown operator: {node.op}") 
-    
+    elif isinstance(node, UnaryOp):
+        right = evaluate(node.right)
+        return -int(right)
     else:
         raise SyntaxError(f"[Jhansi] Evaluator: unknown node type: {type(node.__class__)}")

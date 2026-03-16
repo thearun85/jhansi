@@ -1,4 +1,4 @@
-from jhansi.ast_nodes import Node, Number, BinaryOp
+from jhansi.ast_nodes import Node, Number, BinaryOp, UnaryOp
 from jhansi.evaluator import evaluate
 
 import pytest
@@ -27,6 +27,11 @@ def test_evaluate_division() -> None:
     node = BinaryOp(Number(10), '/', Number(5))
     result = evaluate(node)
     assert result == 2
+
+def test_evaluate_unary() -> None:
+    node = UnaryOp('-', Number(10))
+    result = evaluate(node)
+    assert result == -10
     
 def test_evaluate_raise_syntax_error() -> None:
     node = Node()

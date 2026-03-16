@@ -44,3 +44,12 @@ def test_expression_wrapper() -> None:
     assert len(tokens) == 3
     assert tokens[0].kind == TokenType.LPAREN
     assert tokens[1].kind == TokenType.RPAREN
+
+def test_unary() -> None:
+    src = "-3" # Arithmetic operations
+    tokens = Lexer(src).tokenize()
+    assert tokens is not None
+    assert len(tokens) == 3
+    assert tokens[0].kind == TokenType.MINUS
+    assert tokens[1].kind == TokenType.INT
+    assert tokens[2].kind == TokenType.EOF
