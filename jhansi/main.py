@@ -7,12 +7,13 @@ def run(src: str) -> None:
     
     print(f"[Jhansi] Tokens List -> \n{tokens}")
 
-    node = Parser(tokens).parse_statement()
-    print(f"[Jhansi] Node is ->\n{node}")
+    nodes = Parser(tokens).parse_program()
+    print(f"[Jhansi] Node is ->\n{nodes}")
 
     e = Evaluator()
-    result = e.evaluate(node)
-    print(f"[Jhansi] Result is {result}")
+    for node in nodes:
+        result = e.evaluate(node)
+        print(f"[Jhansi] Result is {result}")
 
     for k, v in e.symbols.items():
         print(f"key is {k} and value is {v}")

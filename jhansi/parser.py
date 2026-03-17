@@ -3,7 +3,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 from .token import Token, TokenType
-from .ast_nodes import Node, Number, BinaryOp, UnaryOp, Assign
+from .ast_nodes import Node, Number, BinaryOp, UnaryOp, Assign, Var
 class Parser:
     def __init__(self, tokens: list[Token]) -> None:
         self.tokens: list[Token] = tokens
@@ -15,7 +15,9 @@ class Parser:
 
     def peek_next(self) -> Token:
         "Return one token ahead"
-        return self.tokens[self.pos+1]
+        if len(self.tokens) > self.pos+1: 
+            return self.tokens[self.pos+1]
+        return Token(TokenType.EOF, "")
         
     def eat(self, kind: TokenType) -> Token:
         "Consume the next available token and return it, if it matches the expected kind"
@@ -26,16 +28,25 @@ class Parser:
         self.pos+=1
         return tok
 
+    def parse_program(self) -> list[Node]:
+        nodes: list[Node] = []
+        while self.peek().kind != TokenType.EOF:
+            nodes.append(self.parse_statement())
+        return nodes
+    
     def parse_statement(self) -> Node:
         tok = self.peek()
-        print(f"{tok.kind} and {self.peek_next().kind}")
+        node = None
         if tok.kind == TokenType.IDENT and self.peek_next().kind == TokenType.EQUAL:
             name = str(self.eat(TokenType.IDENT).value)
             self.eat(TokenType.EQUAL)
             expr = self.parse_expr()
+            self.eat(TokenType.SEMI)
             return Assign(name, expr)
+            
+        else:
+            return self.parse_expr()
 
-        raise SyntaxError(f"[Jhansi] Parser: Unknown token '{tok.kind}'")
     
     def parse_expr(self) -> Node:
         """Process expressions on a line. Anything which doesn't have an assignment entitles for an expression"""
@@ -74,7 +85,11 @@ class Parser:
         if tok.kind == TokenType.INT:
             self.eat(TokenType.INT)
             return Number(int(tok.value))
-
+            
+        elif tok.kind == TokenType.IDENT:
+            name = str(self.eat(TokenType.IDENT).value)
+            return Var(name)
+                    
         elif self.peek().kind == TokenType.LPAREN:
             self.eat(TokenType.LPAREN)
             expr = self.parse_expr()

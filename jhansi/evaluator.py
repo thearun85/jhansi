@@ -1,4 +1,4 @@
-from .ast_nodes import Node, Number, BinaryOp, UnaryOp, Assign
+from .ast_nodes import Node, Number, BinaryOp, UnaryOp, Assign, Var
 
 class Evaluator():
     def __init__(self) -> None:
@@ -27,8 +27,15 @@ class Evaluator():
         elif isinstance(node, UnaryOp):
             right = self.evaluate(node.right)
             return -int(right)
+            
         elif isinstance(node, Assign):
             result = self.evaluate(node.expr)
             self.symbols[node.name] = result
+            return result
+        elif isinstance(node, Var):
+            try:
+                return self.symbols[node.name]
+            except KeyError:
+                raise NameError(f"[Jhansi] Evaluator: undeclared variable '{node.name}'")
         else:
-            raise SyntaxError(f"[Jhansi] Evaluator: unknown node type: {type(node.__class__)}")
+            raise SyntaxError(f"[Jhansi] Evaluator: unknown node type: {type(node).__name__}")

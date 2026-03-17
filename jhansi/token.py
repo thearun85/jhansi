@@ -17,10 +17,11 @@ class TokenType(Enum):
     # Declaration and Assignments
     IDENT = auto() # Variable names
     EQUAL = auto() # Variable assignments
+    SEMI = auto() # statement seperator
     # Keywords
     VAR = auto()
     
-    
+    # Code organizers
     LPAREN = auto() # (
     RPAREN = auto() # )
 

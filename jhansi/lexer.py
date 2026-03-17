@@ -32,6 +32,9 @@ class Lexer:
             elif c == '=':
                 tokens.append(Token(TokenType.EQUAL, c))
                 self.pos+=1
+            elif c == ';':
+                tokens.append(Token(TokenType.SEMI, c))
+                self.pos+=1
 
             elif c.isdigit():
                 # Retrieve and tokenize an integer. Float is not supported currently

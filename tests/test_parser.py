@@ -56,13 +56,13 @@ def test_parse_subtraction() -> None:
     assert isinstance(node, BinaryOp)
 
 def test_parse_multiply() -> None:
-    tokens = [Token(TokenType.INT, 5), Token(TokenType.PLUS, '*'), Token(TokenType.INT, 7), Token(TokenType.EOF, "")]
+    tokens = [Token(TokenType.INT, 5), Token(TokenType.STAR, '*'), Token(TokenType.INT, 7), Token(TokenType.EOF, "")]
     node = Parser(tokens).parse_expr()
     assert node is not None
     assert isinstance(node, BinaryOp)
 
 def test_parse_divide() -> None:
-    tokens = [Token(TokenType.INT, 10), Token(TokenType.MINUS, '/'), Token(TokenType.INT, 5), Token(TokenType.EOF, "")]
+    tokens = [Token(TokenType.INT, 10), Token(TokenType.SLASH, '/'), Token(TokenType.INT, 5), Token(TokenType.EOF, "")]
     node = Parser(tokens).parse_expr()
     assert node is not None
     assert isinstance(node, BinaryOp)
@@ -74,7 +74,7 @@ def test_parse_unary() -> None:
     assert isinstance(node, UnaryOp)
 
 def test_parse_identifier() -> None:
-    tokens = [Token(TokenType.IDENT, 'x'), Token(TokenType.EQUAL, '='),Token(TokenType.INT, '100'), Token(TokenType.EOF, "")]
+    tokens = [Token(TokenType.IDENT, 'x'), Token(TokenType.EQUAL, '='),Token(TokenType.INT, '100'), Token(TokenType.SEMI, ";"), Token(TokenType.EOF, "")]
     node = Parser(tokens).parse_statement()
     assert node is not None
     assert isinstance(node, Assign)
