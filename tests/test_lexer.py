@@ -53,3 +53,14 @@ def test_unary() -> None:
     assert tokens[0].kind == TokenType.MINUS
     assert tokens[1].kind == TokenType.INT
     assert tokens[2].kind == TokenType.EOF
+
+def test_identifier() -> None:
+    src = "x=3" # Variable assignments
+    tokens = Lexer(src).tokenize()
+    assert tokens is not None
+    assert len(tokens) == 4
+    assert tokens[0].kind == TokenType.IDENT
+    assert tokens[1].kind == TokenType.EQUAL
+    assert tokens[2].kind == TokenType.INT
+    assert tokens[3].kind == TokenType.EOF
+    

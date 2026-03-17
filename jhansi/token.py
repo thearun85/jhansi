@@ -14,7 +14,13 @@ class TokenType(Enum):
     STAR = auto() # Multiplication
     SLASH = auto() # Division
 
-
+    # Declaration and Assignments
+    IDENT = auto() # Variable names
+    EQUAL = auto() # Variable assignments
+    # Keywords
+    VAR = auto()
+    
+    
     LPAREN = auto() # (
     RPAREN = auto() # )
 

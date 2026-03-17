@@ -20,7 +20,19 @@ class Lexer:
             c = self.source[self.pos]
             if c.isspace():
                 self.pos+=1 # Ignore whitespace
-            
+
+            elif c.isalpha():
+                # Retrieve and tokenize an IDENTIFIER.
+                start = self.pos
+                self.pos+=1
+                while self.pos < len(self.source) and self.source[self.pos].isalnum():
+                    self.pos+=1
+                tokens.append(Token(TokenType.IDENT, str(self.source[start: self.pos])))
+
+            elif c == '=':
+                tokens.append(Token(TokenType.EQUAL, c))
+                self.pos+=1
+
             elif c.isdigit():
                 # Retrieve and tokenize an integer. Float is not supported currently
                 start = self.pos

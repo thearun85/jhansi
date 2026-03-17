@@ -1,6 +1,6 @@
 from jhansi.token import TokenType, Token
 from jhansi.parser import Parser
-from jhansi.ast_nodes import Number, BinaryOp, UnaryOp
+from jhansi.ast_nodes import Number, BinaryOp, UnaryOp, Assign
 import pytest
 import re
 
@@ -72,6 +72,12 @@ def test_parse_unary() -> None:
     node = Parser(tokens).parse_expr()
     assert node is not None
     assert isinstance(node, UnaryOp)
+
+def test_parse_identifier() -> None:
+    tokens = [Token(TokenType.IDENT, 'x'), Token(TokenType.EQUAL, '='),Token(TokenType.INT, '100'), Token(TokenType.EOF, "")]
+    node = Parser(tokens).parse_statement()
+    assert node is not None
+    assert isinstance(node, Assign)
     
 def test_parse_raise_syntax_error() -> None:
     tokens = [Token(TokenType.EOF, "")]

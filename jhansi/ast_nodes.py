@@ -24,3 +24,11 @@ class UnaryOp(Node):
 
     def __repr__(self) ->str:
         return f"Unary({self.op} {self.right})"
+
+class Assign(Node):
+    def __init__(self, name: str, expr: Node) -> None:
+        self.name: str = name
+        self.expr: Node = expr
+
+    def __repr__(self) -> str:
+        return f"Assign({self.name} {self.expr})"
