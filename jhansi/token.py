@@ -1,8 +1,8 @@
-from enum import Enum, auto
+from enum import IntEnum, auto
 from dataclasses import dataclass
 
 # Maintain a list of tokens supported by the language
-class TokenType(Enum):
+class TokenType(IntEnum):
 
     # Literals
     INT_LIT = auto() # Integer
@@ -18,14 +18,15 @@ class TokenType(Enum):
     IDENT = auto() # Variable names
     EQUAL = auto() # Variable assignments
     SEMI = auto() # statement seperator
-    # Keywords
     VAR = auto()
+
     
     # Code organizers
     LPAREN = auto() # (
     RPAREN = auto() # )
 
     EOF = auto() # End of File
+
 
 @dataclass
 class Token:
