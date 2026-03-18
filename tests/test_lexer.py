@@ -14,7 +14,7 @@ def test_token_is_int() -> None:
     token = Lexer(src).tokenize()
     assert token is not None
     assert len(token) == 2
-    assert token[0].kind == TokenType.INT
+    assert token[0].kind == TokenType.INT_LIT
     assert token[0].value == 345
 
 def test_invalid_character_raises_syntax_error() -> None:
@@ -51,7 +51,7 @@ def test_unary() -> None:
     assert tokens is not None
     assert len(tokens) == 3
     assert tokens[0].kind == TokenType.MINUS
-    assert tokens[1].kind == TokenType.INT
+    assert tokens[1].kind == TokenType.INT_LIT
     assert tokens[2].kind == TokenType.EOF
 
 def test_identifier() -> None:
@@ -61,6 +61,6 @@ def test_identifier() -> None:
     assert len(tokens) == 4
     assert tokens[0].kind == TokenType.IDENT
     assert tokens[1].kind == TokenType.EQUAL
-    assert tokens[2].kind == TokenType.INT
+    assert tokens[2].kind == TokenType.INT_LIT
     assert tokens[3].kind == TokenType.EOF
     

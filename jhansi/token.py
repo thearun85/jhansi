@@ -4,8 +4,8 @@ from dataclasses import dataclass
 # Maintain a list of tokens supported by the language
 class TokenType(Enum):
 
-    # Data types
-    INT = auto() # Integer
+    # Literals
+    INT_LIT = auto() # Integer
 
     # Arithmetic operators
     # Addition and Subtraction are of the same precedence, so they can be processed left to right

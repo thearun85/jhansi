@@ -82,8 +82,8 @@ class Parser:
     def parse_token(self) -> Node:
         """This is the innermost leaf node. It deals with the basic operand nodes like numbers and variables."""
         tok = self.peek()
-        if tok.kind == TokenType.INT:
-            self.eat(TokenType.INT)
+        if tok.kind == TokenType.INT_LIT:
+            self.eat(TokenType.INT_LIT)
             return Number(int(tok.value))
             
         elif tok.kind == TokenType.IDENT:

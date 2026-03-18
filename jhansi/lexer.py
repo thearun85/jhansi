@@ -44,7 +44,7 @@ class Lexer:
                 while self.pos < len(self.source) and self.source[self.pos].isdigit():
                     self.pos+=1
                     
-                tokens.append(Token(TokenType.INT, int(self.source[start: self.pos])))
+                tokens.append(Token(TokenType.INT_LIT, int(self.source[start: self.pos])))
             # Arithmetic operation starts
             elif c == '+':
                 tokens.append(Token(TokenType.PLUS, c))
