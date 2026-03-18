@@ -1,4 +1,4 @@
-from jhansi.ast_nodes import Node, Number, Boolean, BinaryOp, UnaryOp, Assign, Var, VarDecl
+from jhansi.ast_nodes import Node, Number, Boolean, Char, BinaryOp, UnaryOp, Assign, Var, VarDecl
 from jhansi.evaluator import Evaluator
 
 import pytest
@@ -18,6 +18,16 @@ def test_evaluate_bool_false() -> None:
     result = Evaluator().evaluate(node)
     assert result == False
 
+def test_evaluate_basic_char_literal() -> None:
+    node = Char('a')
+    result = Evaluator().evaluate(node)
+    assert result == "'a'"
+
+def test_evaluate_escape_char_literal() -> None:
+    node = Char('\0')
+    result = Evaluator().evaluate(node)
+    assert result == "'\\x00'"
+    
 def test_evaluate_addition() -> None:
     node = BinaryOp(Number(5), '+', Number(7))
     result = Evaluator().evaluate(node)

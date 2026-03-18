@@ -41,7 +41,28 @@ def test_token_is_bool_false() -> None:
     assert len(token) == 2
     assert token[0].kind == TokenType.FALSE
     assert token[0].value == "false"
-    
+
+def test_token_is_basic_char_literal() -> None:
+    src = "'a'"
+    token = Lexer(src).tokenize()
+    assert token is not None
+    assert len(token) == 2
+    assert token[0].kind == TokenType.CHAR_LIT
+    assert token[0].value == 'a'
+
+def test_token_is_escape_char_literal() -> None:
+    src = "'\0'"
+    token = Lexer(src).tokenize()
+    assert token is not None
+    assert len(token) == 2
+    assert token[0].kind == TokenType.CHAR_LIT
+    assert token[0].value == '\0'
+
+def test_token_raises_unterminated_char_literal() -> None:
+    src = "'a"
+    with pytest.raises(SyntaxError):
+        Lexer(src).tokenize()
+
 def test_invalid_character_raises_syntax_error() -> None:
     src = "123 $ 456"
     with pytest.raises(SyntaxError, match=r"unknown character: \$"):

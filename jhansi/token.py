@@ -6,6 +6,7 @@ class TokenType(IntEnum):
 
     # Literals
     INT_LIT = auto() # Integer
+    CHAR_LIT = auto() # Char literal 'a' single character
 
     # Datatypes
     INT = auto()

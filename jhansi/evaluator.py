@@ -1,5 +1,5 @@
 from typing import Any
-from .ast_nodes import Node, Number, Boolean, BinaryOp, UnaryOp, Assign, Var, VarDecl
+from .ast_nodes import Node, Number, Boolean, Char, BinaryOp, UnaryOp, Assign, Var, VarDecl
 
 DEFAULT_VALUES: dict[str, Any] = {
     "int": 0,
@@ -22,6 +22,10 @@ class Evaluator():
         elif isinstance(node, Number):
             "Return the integer"
             return int(node.value)
+
+        elif isinstance(node, Char):
+            "Return the char"
+            return node.value
 
         elif isinstance(node, Boolean):
             "Return the boolean value"

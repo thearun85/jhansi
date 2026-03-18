@@ -3,7 +3,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 from .token import Token, TokenType
-from .ast_nodes import Node, Number, Boolean, BinaryOp, UnaryOp, Assign, Var, VarDecl
+from .ast_nodes import Node, Number, Boolean, Char, BinaryOp, UnaryOp, Assign, Var, VarDecl
 class Parser:
     def __init__(self, tokens: list[Token]) -> None:
         self.tokens: list[Token] = tokens
@@ -99,6 +99,10 @@ class Parser:
         if tok.kind == TokenType.INT_LIT:
             self.eat(TokenType.INT_LIT)
             return Number(int(tok.value))
+
+        elif tok.kind == TokenType.CHAR_LIT:
+            self.eat(TokenType.CHAR_LIT)
+            return Char(str(tok.value))
             
         elif tok.kind == TokenType.IDENT:
             name = str(self.eat(TokenType.IDENT).value)

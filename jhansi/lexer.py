@@ -32,6 +32,31 @@ class Lexer:
                 
                 tokens.append(Token(token_type, word))
 
+            # Process char literal including escape sequences like newline, tab, \0, \, '
+            elif c == "'":
+                self.pos+=1
+                if self.pos >= len(self.source):
+                    raise SyntaxError(f"[Jhansi] Lexer: unterminated literal")
+                c = self.source[self.pos]
+                if c == '\\':
+                    self.pos+=1
+                    if self.pos >= len(self.source):
+                        raise SyntaxError(f"[Jhansi] Lexer: unterminated escape sequence")
+                    escape = self.source[self.pos]
+                    match escape:
+                        case 'n': c = '\n'
+                        case 't': c = '\t'
+                        case '0': c = '\0'
+                        case '\\': c = '\\'
+                        case "'": c = "'"
+                        case _:
+                            raise SyntaxError(f"[Jhansi] Lexer: unknown escape sequence: {escape}")
+                self.pos+=1
+                if self.pos >= len(self.source) or self.source[self.pos] != "'":
+                    raise SyntaxError(f"[Jhansi] Lexer: unterminated literal")
+                tokens.append(Token(TokenType.CHAR_LIT, c))
+                self.pos+=1
+                
             elif c == '=':
                 tokens.append(Token(TokenType.EQUAL, c))
                 self.pos+=1

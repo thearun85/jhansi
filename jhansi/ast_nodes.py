@@ -15,6 +15,14 @@ class Boolean(Node):
     def __repr__(self) -> str:
         return f"Boolean({'true' if self.value else 'false'})"
 
+class Char(Node):
+    def __init__(self, value: str) -> None:
+        escaped = repr(value)
+        self.value: str = escaped
+
+    def __repr__(self) -> str:
+        return f"Char('{self.value}')"
+
 class BinaryOp(Node):
     def __init__(self, left: Node, op: str, right: Node) -> None:
         self.left: Node = left
