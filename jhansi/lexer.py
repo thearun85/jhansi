@@ -2,7 +2,7 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-from .token import TokenType, Token
+from .token import TokenType, Token, KEYWORDS
 
 
 
@@ -27,7 +27,10 @@ class Lexer:
                 self.pos+=1
                 while self.pos < len(self.source) and self.source[self.pos].isalnum():
                     self.pos+=1
-                tokens.append(Token(TokenType.IDENT, str(self.source[start: self.pos])))
+                word = str(self.source[start: self.pos])
+                token_type = KEYWORDS.get(word, TokenType.IDENT)
+                
+                tokens.append(Token(token_type, word))
 
             elif c == '=':
                 tokens.append(Token(TokenType.EQUAL, c))

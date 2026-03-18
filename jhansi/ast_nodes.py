@@ -39,3 +39,12 @@ class Var(Node):
 
     def __repr__(self) -> str:
         return f"Var({self.name})"
+
+class VarDecl(Node):
+    def __init__(self, name: str, var_type: str, expr: Node|None) -> None:
+        self.name: str = name
+        self.var_type: str = var_type
+        self.expr: Node|None = expr
+
+    def __repr__(self) -> str:
+        return f"VarDecl({self.name} {self.var_type} {self.expr})"

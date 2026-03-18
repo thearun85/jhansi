@@ -3,7 +3,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 from .token import Token, TokenType
-from .ast_nodes import Node, Number, BinaryOp, UnaryOp, Assign, Var
+from .ast_nodes import Node, Number, BinaryOp, UnaryOp, Assign, Var, VarDecl
 class Parser:
     def __init__(self, tokens: list[Token]) -> None:
         self.tokens: list[Token] = tokens
@@ -43,7 +43,18 @@ class Parser:
             expr = self.parse_expr()
             self.eat(TokenType.SEMI)
             return Assign(name, expr)
-            
+
+        elif tok.kind == TokenType.VAR and self.peek_next().kind == TokenType.IDENT:
+            self.eat(TokenType.VAR)
+            name = str(self.eat(TokenType.IDENT).value)
+            var_type = str(self.eat(TokenType.INT).value)
+            if self.peek().kind == TokenType.EQUAL:
+                self.eat(TokenType.EQUAL);
+                expr = self.parse_expr()
+            else:
+                expr = None
+            self.eat(TokenType.SEMI)
+            return VarDecl(name, var_type, expr)
         else:
             return self.parse_expr()
 
@@ -96,5 +107,5 @@ class Parser:
             self.eat(TokenType.RPAREN)
             return expr
 
-        logger.error(f"[Jhansi] Parser: Unexpected Token: {tok.kind}")
-        raise SyntaxError(f"[Jhansi] Parser: Unexpected Token: {tok.kind}")
+        logger.error(f"[Jhansi] Parser: Unexpected Token: {tok.kind.name}")
+        raise SyntaxError(f"[Jhansi] Parser: Unexpected Token: {tok.kind.name}")

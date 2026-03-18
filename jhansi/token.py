@@ -7,6 +7,9 @@ class TokenType(IntEnum):
     # Literals
     INT_LIT = auto() # Integer
 
+    # Datatypes
+    INT = auto()
+
     # Arithmetic operators
     # Addition and Subtraction are of the same precedence, so they can be processed left to right
     PLUS = auto() # Addition
@@ -27,6 +30,11 @@ class TokenType(IntEnum):
 
     EOF = auto() # End of File
 
+# Language keywords
+KEYWORDS: dict[str, TokenType] = {
+    "var": TokenType.VAR,
+    "int": TokenType.INT,
+}
 
 @dataclass
 class Token:

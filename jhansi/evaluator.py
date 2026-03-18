@@ -1,4 +1,4 @@
-from .ast_nodes import Node, Number, BinaryOp, UnaryOp, Assign, Var
+from .ast_nodes import Node, Number, BinaryOp, UnaryOp, Assign, Var, VarDecl
 
 class Evaluator():
     def __init__(self) -> None:
@@ -7,7 +7,15 @@ class Evaluator():
         
     def evaluate(self, node: Node) -> int:
         """Process the operation and return the result."""
-        if isinstance(node, Number):
+
+        if isinstance(node, VarDecl):
+            print(f"node is {node}")
+            if node.expr is None:
+                self.symbols[node.name] = 0
+            else:
+                self.symbols[node.name] = self.evaluate(node.expr)
+        
+        elif isinstance(node, Number):
             "Return the integer"
             return int(node.value)
 

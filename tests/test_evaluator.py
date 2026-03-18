@@ -1,4 +1,4 @@
-from jhansi.ast_nodes import Node, Number, BinaryOp, UnaryOp, Assign
+from jhansi.ast_nodes import Node, Number, BinaryOp, UnaryOp, Assign, Var, VarDecl
 from jhansi.evaluator import Evaluator
 
 import pytest
@@ -38,7 +38,21 @@ def test_evaluate_assign() -> None:
     e = Evaluator()
     result = e.evaluate(node)
     assert len(e.symbols) > 0
-    
+
+def test_evaluate_vardecl_with_no_assignment() -> None:
+    node = VarDecl('x', "int", None)
+    e = Evaluator()
+    result = e.evaluate(node)
+    assert len(e.symbols) > 0
+    assert e.symbols["x"] == 0
+
+def test_evaluate_vardecl_with_assignment() -> None:
+    node = VarDecl('x', "int", Number(10))
+    e = Evaluator()
+    result = e.evaluate(node)
+    assert len(e.symbols) > 0
+    assert e.symbols["x"] == 10
+        
 def test_evaluate_raise_syntax_error() -> None:
     node = Node()
     with pytest.raises(SyntaxError):

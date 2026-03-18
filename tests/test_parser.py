@@ -1,6 +1,6 @@
 from jhansi.token import TokenType, Token
 from jhansi.parser import Parser
-from jhansi.ast_nodes import Number, BinaryOp, UnaryOp, Assign
+from jhansi.ast_nodes import Number, BinaryOp, UnaryOp, Assign, Var, VarDecl
 import pytest
 import re
 
@@ -78,6 +78,18 @@ def test_parse_identifier() -> None:
     node = Parser(tokens).parse_statement()
     assert node is not None
     assert isinstance(node, Assign)
+
+def test_parse_vardecl_with_no_assignment() -> None:
+    tokens = [Token(TokenType.VAR, 'var'), Token(TokenType.IDENT, 'x'), Token(TokenType.INT, 'int'), Token(TokenType.SEMI, ";"), Token(TokenType.EOF, "")]
+    node = Parser(tokens).parse_statement()
+    assert node is not None
+    assert isinstance(node, VarDecl)
+
+def test_parse_vardecl_with_assignment() -> None:
+    tokens = [Token(TokenType.VAR, 'var'), Token(TokenType.IDENT, 'x'), Token(TokenType.INT, 'int'), Token(TokenType.EQUAL, "="), Token(TokenType.INT_LIT, "100"), Token(TokenType.SEMI, ";"), Token(TokenType.EOF, "")]
+    node = Parser(tokens).parse_statement()
+    assert node is not None
+    assert isinstance(node, VarDecl)
     
 def test_parse_raise_syntax_error() -> None:
     tokens = [Token(TokenType.EOF, "")]
