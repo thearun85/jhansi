@@ -3,7 +3,8 @@ from .ast_nodes import Node, Number, Boolean, Char, BinaryOp, UnaryOp, Assign, V
 
 DEFAULT_VALUES: dict[str, Any] = {
     "int": 0,
-    "bool": False
+    "bool": False,
+    "char": '\0',
 }
 class Evaluator():
     def __init__(self) -> None:

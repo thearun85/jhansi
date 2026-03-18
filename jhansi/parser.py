@@ -49,7 +49,7 @@ class Parser:
         elif tok.kind == TokenType.VAR and self.peek_next().kind == TokenType.IDENT:
             self.eat(TokenType.VAR)
             name = str(self.eat(TokenType.IDENT).value)
-            if self.peek().kind in (TokenType.INT, TokenType.BOOL):
+            if self.peek().kind in (TokenType.INT, TokenType.BOOL, TokenType.CHAR):
                 var_type = str(self.eat(self.peek().kind).value)
             if self.peek().kind == TokenType.EQUAL:
                 self.eat(TokenType.EQUAL);

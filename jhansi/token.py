@@ -11,6 +11,7 @@ class TokenType(IntEnum):
     # Datatypes
     INT = auto()
     BOOL = auto()
+    CHAR = auto()
 
     # Arithmetic operators
     # Addition and Subtraction are of the same precedence, so they can be processed left to right
@@ -41,6 +42,7 @@ KEYWORDS: dict[str, TokenType] = {
     "bool": TokenType.BOOL,
     "true": TokenType.TRUE,
     "false": TokenType.FALSE,
+    "char": TokenType.CHAR,
 }
 
 @dataclass

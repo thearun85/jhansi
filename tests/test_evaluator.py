@@ -59,33 +59,47 @@ def test_evaluate_assign() -> None:
     result = e.evaluate(node)
     assert len(e.symbols) > 0
 
-def test_evaluate_vardeclint_with_no_assignment() -> None:
+def test_evaluate_vardecl_int_with_no_assignment() -> None:
     node = VarDecl('x', "int", None)
     e = Evaluator()
     result = e.evaluate(node)
     assert len(e.symbols) > 0
     assert e.symbols["x"] == 0
 
-def test_evaluate_vardeclint_with_assignment() -> None:
+def test_evaluate_vardecl_int_with_assignment() -> None:
     node = VarDecl('x', "int", Number(10))
     e = Evaluator()
     result = e.evaluate(node)
     assert len(e.symbols) > 0
     assert e.symbols["x"] == 10
 
-def test_evaluate_vardeclbool_with_no_assignment() -> None:
+def test_evaluate_vardecl_bool_with_no_assignment() -> None:
     node = VarDecl('x', "bool", None)
     e = Evaluator()
     result = e.evaluate(node)
     assert len(e.symbols) > 0
     assert e.symbols["x"] == False
 
-def test_evaluate_vardecl_with_assignment() -> None:
+def test_evaluate_vardecl_bool_with_assignment() -> None:
     node = VarDecl('x', "bool", Boolean(True))
     e = Evaluator()
     result = e.evaluate(node)
     assert len(e.symbols) > 0
     assert e.symbols["x"] == True
+
+def test_evaluate_vardecl_char_with_no_assignment() -> None:
+    node = VarDecl('x', "char", None)
+    e = Evaluator()
+    result = e.evaluate(node)
+    assert len(e.symbols) > 0
+    assert e.symbols["x"] == '\x00'
+
+def test_evaluate_vardecl_char_with_assignment() -> None:
+    node = VarDecl('x', "char", Char('a'))
+    e = Evaluator()
+    result = e.evaluate(node)
+    assert len(e.symbols) > 0
+    assert e.symbols["x"] == "'a'"
         
 def test_evaluate_raise_syntax_error() -> None:
     node = Node()

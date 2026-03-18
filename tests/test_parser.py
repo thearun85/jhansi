@@ -103,26 +103,38 @@ def test_parse_identifier() -> None:
     assert node is not None
     assert isinstance(node, Assign)
 
-def test_parse_vardeclint_with_no_assignment() -> None:
+def test_parse_vardecl_int_with_no_assignment() -> None:
     tokens = [Token(TokenType.VAR, 'var'), Token(TokenType.IDENT, 'x'), Token(TokenType.INT, 'int'), Token(TokenType.SEMI, ";"), Token(TokenType.EOF, "")]
     node = Parser(tokens).parse_statement()
     assert node is not None
     assert isinstance(node, VarDecl)
 
-def test_parse_vardeclint_with_assignment() -> None:
+def test_parse_vardecl_int_with_assignment() -> None:
     tokens = [Token(TokenType.VAR, 'var'), Token(TokenType.IDENT, 'x'), Token(TokenType.INT, 'int'), Token(TokenType.EQUAL, "="), Token(TokenType.INT_LIT, "100"), Token(TokenType.SEMI, ";"), Token(TokenType.EOF, "")]
     node = Parser(tokens).parse_statement()
     assert node is not None
     assert isinstance(node, VarDecl)
 
-def test_parse_vardeclbool_with_no_assignment() -> None:
+def test_parse_vardecl_bool_with_no_assignment() -> None:
     tokens = [Token(TokenType.VAR, 'var'), Token(TokenType.IDENT, 'x'), Token(TokenType.BOOL, 'bool'), Token(TokenType.SEMI, ";"), Token(TokenType.EOF, "")]
     node = Parser(tokens).parse_statement()
     assert node is not None
     assert isinstance(node, VarDecl)
 
-def test_parse_vardeclbool_with_assignment() -> None:
+def test_parse_vardecl_bool_with_assignment() -> None:
     tokens = [Token(TokenType.VAR, 'var'), Token(TokenType.IDENT, 'x'), Token(TokenType.BOOL, 'bool'), Token(TokenType.EQUAL, "="), Token(TokenType.TRUE, "true"), Token(TokenType.SEMI, ";"), Token(TokenType.EOF, "")]
+    node = Parser(tokens).parse_statement()
+    assert node is not None
+    assert isinstance(node, VarDecl)
+
+def test_parse_vardecl_char_with_no_assignment() -> None:
+    tokens = [Token(TokenType.VAR, 'var'), Token(TokenType.IDENT, 'x'), Token(TokenType.CHAR, 'char'), Token(TokenType.SEMI, ";"), Token(TokenType.EOF, "")]
+    node = Parser(tokens).parse_statement()
+    assert node is not None
+    assert isinstance(node, VarDecl)
+
+def test_parse_vardecl_char_with_assignment() -> None:
+    tokens = [Token(TokenType.VAR, 'var'), Token(TokenType.IDENT, 'x'), Token(TokenType.CHAR, 'char'), Token(TokenType.EQUAL, "="), Token(TokenType.CHAR_LIT, "'a'"), Token(TokenType.SEMI, ";"), Token(TokenType.EOF, "")]
     node = Parser(tokens).parse_statement()
     assert node is not None
     assert isinstance(node, VarDecl)

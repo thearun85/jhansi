@@ -110,7 +110,7 @@ def test_identifier() -> None:
     assert tokens[2].kind == TokenType.INT_LIT
     assert tokens[3].kind == TokenType.EOF
     
-def test_variable_declaration_with_no_assignment() -> None:
+def test_int_variable_declaration_with_no_assignment() -> None:
     src = "var x int;" # Variable assignments
     tokens = Lexer(src).tokenize()
     assert tokens is not None
@@ -121,7 +121,7 @@ def test_variable_declaration_with_no_assignment() -> None:
     assert tokens[3].kind == TokenType.SEMI
     assert tokens[4].kind == TokenType.EOF
 
-def test_variable_declaration_with_assignment() -> None:
+def test_int_variable_declaration_with_assignment() -> None:
     src = "var x int = 10;" # Variable assignments
     tokens = Lexer(src).tokenize()
     assert tokens is not None
@@ -131,5 +131,53 @@ def test_variable_declaration_with_assignment() -> None:
     assert tokens[2].kind == TokenType.INT
     assert tokens[3].kind == TokenType.EQUAL
     assert tokens[4].kind == TokenType.INT_LIT
+    assert tokens[5].kind == TokenType.SEMI
+    assert tokens[6].kind == TokenType.EOF
+
+def test_bool_variable_declaration_with_no_assignment() -> None:
+    src = "var x bool;" # Variable assignments
+    tokens = Lexer(src).tokenize()
+    assert tokens is not None
+    assert len(tokens) == 5
+    assert tokens[0].kind == TokenType.VAR
+    assert tokens[1].kind == TokenType.IDENT
+    assert tokens[2].kind == TokenType.BOOL
+    assert tokens[3].kind == TokenType.SEMI
+    assert tokens[4].kind == TokenType.EOF
+
+def test_bool_variable_declaration_with_assignment() -> None:
+    src = "var x bool = true;" # Variable assignments
+    tokens = Lexer(src).tokenize()
+    assert tokens is not None
+    assert len(tokens) == 7
+    assert tokens[0].kind == TokenType.VAR
+    assert tokens[1].kind == TokenType.IDENT
+    assert tokens[2].kind == TokenType.BOOL
+    assert tokens[3].kind == TokenType.EQUAL
+    assert tokens[4].kind == TokenType.TRUE
+    assert tokens[5].kind == TokenType.SEMI
+    assert tokens[6].kind == TokenType.EOF
+
+def test_char_variable_declaration_with_no_assignment() -> None:
+    src = "var x char;" # Variable assignments
+    tokens = Lexer(src).tokenize()
+    assert tokens is not None
+    assert len(tokens) == 5
+    assert tokens[0].kind == TokenType.VAR
+    assert tokens[1].kind == TokenType.IDENT
+    assert tokens[2].kind == TokenType.CHAR
+    assert tokens[3].kind == TokenType.SEMI
+    assert tokens[4].kind == TokenType.EOF
+
+def test_char_variable_declaration_with_assignment() -> None:
+    src = "var x char = 'a';" # Variable assignments
+    tokens = Lexer(src).tokenize()
+    assert tokens is not None
+    assert len(tokens) == 7
+    assert tokens[0].kind == TokenType.VAR
+    assert tokens[1].kind == TokenType.IDENT
+    assert tokens[2].kind == TokenType.CHAR
+    assert tokens[3].kind == TokenType.EQUAL
+    assert tokens[4].kind == TokenType.CHAR_LIT
     assert tokens[5].kind == TokenType.SEMI
     assert tokens[6].kind == TokenType.EOF
