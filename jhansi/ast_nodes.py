@@ -8,6 +8,13 @@ class Number(Node):
     def __repr__(self) -> str:
         return f"Number({self.value})"
 
+class Boolean(Node):
+    def __init__(self, value: bool) -> None:
+        self.value: bool = value
+
+    def __repr__(self) -> str:
+        return f"Boolean({'true' if self.value else 'false'})"
+
 class BinaryOp(Node):
     def __init__(self, left: Node, op: str, right: Node) -> None:
         self.left: Node = left

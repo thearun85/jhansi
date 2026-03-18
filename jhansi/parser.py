@@ -3,7 +3,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 from .token import Token, TokenType
-from .ast_nodes import Node, Number, BinaryOp, UnaryOp, Assign, Var, VarDecl
+from .ast_nodes import Node, Number, Boolean, BinaryOp, UnaryOp, Assign, Var, VarDecl
 class Parser:
     def __init__(self, tokens: list[Token]) -> None:
         self.tokens: list[Token] = tokens
@@ -37,6 +37,7 @@ class Parser:
     def parse_statement(self) -> Node:
         tok = self.peek()
         node = None
+        # variable assignments of format x = 10;
         if tok.kind == TokenType.IDENT and self.peek_next().kind == TokenType.EQUAL:
             name = str(self.eat(TokenType.IDENT).value)
             self.eat(TokenType.EQUAL)
@@ -44,10 +45,12 @@ class Parser:
             self.eat(TokenType.SEMI)
             return Assign(name, expr)
 
+        # Variable declaration of format var x int|bool;
         elif tok.kind == TokenType.VAR and self.peek_next().kind == TokenType.IDENT:
             self.eat(TokenType.VAR)
             name = str(self.eat(TokenType.IDENT).value)
-            var_type = str(self.eat(TokenType.INT).value)
+            if self.peek().kind in (TokenType.INT, TokenType.BOOL):
+                var_type = str(self.eat(self.peek().kind).value)
             if self.peek().kind == TokenType.EQUAL:
                 self.eat(TokenType.EQUAL);
                 expr = self.parse_expr()
@@ -106,6 +109,15 @@ class Parser:
             expr = self.parse_expr()
             self.eat(TokenType.RPAREN)
             return expr
+
+        elif self.peek().kind == TokenType.TRUE:
+            self.eat(TokenType.TRUE)
+            return Boolean(True)
+
+        elif self.peek().kind == TokenType.FALSE:
+            self.eat(TokenType.FALSE)
+            return Boolean(False)
+
 
         logger.error(f"[Jhansi] Parser: Unexpected Token: {tok.kind.name}")
         raise SyntaxError(f"[Jhansi] Parser: Unexpected Token: {tok.kind.name}")

@@ -9,6 +9,7 @@ class TokenType(IntEnum):
 
     # Datatypes
     INT = auto()
+    BOOL = auto()
 
     # Arithmetic operators
     # Addition and Subtraction are of the same precedence, so they can be processed left to right
@@ -22,6 +23,8 @@ class TokenType(IntEnum):
     EQUAL = auto() # Variable assignments
     SEMI = auto() # statement seperator
     VAR = auto()
+    TRUE = auto()
+    FALSE = auto()
 
     
     # Code organizers
@@ -34,6 +37,9 @@ class TokenType(IntEnum):
 KEYWORDS: dict[str, TokenType] = {
     "var": TokenType.VAR,
     "int": TokenType.INT,
+    "bool": TokenType.BOOL,
+    "true": TokenType.TRUE,
+    "false": TokenType.FALSE,
 }
 
 @dataclass

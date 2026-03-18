@@ -17,6 +17,31 @@ def test_token_is_int() -> None:
     assert token[0].kind == TokenType.INT_LIT
     assert token[0].value == 345
 
+def test_token_is_bool() -> None:
+    src = "bool"
+    token = Lexer(src).tokenize()
+    assert token is not None
+    assert len(token) == 2
+    assert token[0].kind == TokenType.BOOL
+    assert token[0].value == "bool"
+
+
+def test_token_is_bool_true() -> None:
+    src = "true"
+    token = Lexer(src).tokenize()
+    assert token is not None
+    assert len(token) == 2
+    assert token[0].kind == TokenType.TRUE
+    assert token[0].value == "true"
+
+def test_token_is_bool_false() -> None:
+    src = "false"
+    token = Lexer(src).tokenize()
+    assert token is not None
+    assert len(token) == 2
+    assert token[0].kind == TokenType.FALSE
+    assert token[0].value == "false"
+    
 def test_invalid_character_raises_syntax_error() -> None:
     src = "123 $ 456"
     with pytest.raises(SyntaxError, match=r"unknown character: \$"):
