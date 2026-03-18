@@ -23,8 +23,8 @@ class Parser:
         "Consume the next available token and return it, if it matches the expected kind"
         tok = self.peek()
         if tok.kind != kind:
-            logger.error(f"[Jhansi] Parser: Expected: {kind}, got {tok.kind}")
-            raise SyntaxError(f"[Jhansi] Parser: Expected: {kind}, got {tok.kind}")
+            logger.error(f"[Jhansi] Parser: Expected: {kind.name}, got {tok.kind.name}")
+            raise SyntaxError(f"[Jhansi] Parser: Expected: {kind.name}, got {tok.kind.name}")
         self.pos+=1
         return tok
 

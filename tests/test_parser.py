@@ -32,7 +32,7 @@ def test_eat_raise_syntax_error() -> None:
 def test_eat_raise_error_message() -> None:
     tokens = [Token(TokenType.INT_LIT, 5), Token(TokenType.EOF, "")]
     p = Parser(tokens)
-    msg = "[Jhansi] Parser: Expected: TokenType.EOF, got TokenType.INT_LIT"
+    msg = "[Jhansi] Parser: Expected: EOF, got INT_LIT"
     with pytest.raises(SyntaxError, match=re.escape(msg)):
         assert p.peek().kind == TokenType.INT_LIT
         assert p.eat(TokenType.EOF)
