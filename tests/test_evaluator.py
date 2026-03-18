@@ -68,7 +68,7 @@ def test_evaluate_vardeclbool_with_no_assignment() -> None:
     e = Evaluator()
     result = e.evaluate(node)
     assert len(e.symbols) > 0
-    assert e.symbols["x"] == "false"
+    assert e.symbols["x"] == False
 
 def test_evaluate_vardecl_with_assignment() -> None:
     node = VarDecl('x', "bool", Boolean(True))
