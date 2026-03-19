@@ -97,6 +97,42 @@ def test_parse_unary() -> None:
     assert node is not None
     assert isinstance(node, UnaryOp)
 
+def test_parse_compare_gt() -> None:
+    tokens = [Token(TokenType.INT_LIT, 5), Token(TokenType.GT, '+'), Token(TokenType.INT_LIT, 7), Token(TokenType.EOF, "")]
+    node = Parser(tokens).parse_expr()
+    assert node is not None
+    assert isinstance(node, BinaryOp)
+
+def test_parse_compare_gteq() -> None:
+    tokens = [Token(TokenType.INT_LIT, 5), Token(TokenType.GTEQ, '+'), Token(TokenType.INT_LIT, 7), Token(TokenType.EOF, "")]
+    node = Parser(tokens).parse_expr()
+    assert node is not None
+    assert isinstance(node, BinaryOp)
+
+def test_parse_compare_lt() -> None:
+    tokens = [Token(TokenType.INT_LIT, 5), Token(TokenType.LT, '+'), Token(TokenType.INT_LIT, 7), Token(TokenType.EOF, "")]
+    node = Parser(tokens).parse_expr()
+    assert node is not None
+    assert isinstance(node, BinaryOp)
+
+def test_parse_compare_lteq() -> None:
+    tokens = [Token(TokenType.INT_LIT, 5), Token(TokenType.LTEQ, '+'), Token(TokenType.INT_LIT, 7), Token(TokenType.EOF, "")]
+    node = Parser(tokens).parse_expr()
+    assert node is not None
+    assert isinstance(node, BinaryOp)
+
+def test_parse_compare_eqeq() -> None:
+    tokens = [Token(TokenType.INT_LIT, 5), Token(TokenType.EQEQ, '+'), Token(TokenType.INT_LIT, 7), Token(TokenType.EOF, "")]
+    node = Parser(tokens).parse_expr()
+    assert node is not None
+    assert isinstance(node, BinaryOp)
+
+def test_parse_compare_bangeq() -> None:
+    tokens = [Token(TokenType.INT_LIT, 5), Token(TokenType.BANGEQ, '+'), Token(TokenType.INT_LIT, 7), Token(TokenType.EOF, "")]
+    node = Parser(tokens).parse_expr()
+    assert node is not None
+    assert isinstance(node, BinaryOp)
+        
 def test_parse_identifier() -> None:
     tokens = [Token(TokenType.IDENT, 'x'), Token(TokenType.EQUAL, '='),Token(TokenType.INT_LIT, '100'), Token(TokenType.SEMI, ";"), Token(TokenType.EOF, "")]
     node = Parser(tokens).parse_statement()

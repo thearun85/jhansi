@@ -64,8 +64,18 @@ class Parser:
     
     def parse_expr(self) -> Node:
         """Process expressions on a line. Anything which doesn't have an assignment entitles for an expression"""
-        return self.parse_add_sub()
+        return self.parse_comp_op()
 
+    def parse_comp_op(self) -> Node:
+        """Process the expression left to right. It expects two operands and an operator in between them. It will exit and return the resultant node when the operators exhaust."""
+        left = self.parse_add_sub()
+        while self.peek().kind in (TokenType.GT, TokenType.GTEQ, TokenType.LT, TokenType.LTEQ, TokenType.EQEQ, TokenType.BANGEQ):
+            op = str(self.eat(self.peek().kind).value)
+            right = self.parse_add_sub()
+            # Build the BinaryOp Node with 2 operands and an operator
+            left = BinaryOp(left, op, right)
+        return left
+        
     def parse_add_sub(self) -> Node:
         """Process the expression left to right. It expects two operands and an operator in between them. It will exit and return the resultant node when the operators exhaust."""
         left = self.parse_mul_div()

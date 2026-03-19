@@ -83,6 +83,19 @@ def test_arithmetic_op_success() -> None:
     assert tokens[2].kind == TokenType.STAR
     assert tokens[3].kind == TokenType.SLASH
 
+def test_compare_op_success() -> None:
+    src = ">>=<<===!="
+    tokens = Lexer(src).tokenize()
+    assert tokens is not None
+    assert len(tokens) == 7
+    assert tokens[0].kind == TokenType.GT
+    assert tokens[1].kind == TokenType.GTEQ
+    assert tokens[2].kind == TokenType.LT
+    assert tokens[3].kind == TokenType.LTEQ
+    assert tokens[4].kind == TokenType.EQEQ
+    assert tokens[5].kind == TokenType.BANGEQ
+    assert tokens[6].kind == TokenType.EOF
+
 def test_expression_wrapper() -> None:
     src = "()"
     tokens = Lexer(src).tokenize()

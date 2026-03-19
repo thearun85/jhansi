@@ -20,6 +20,14 @@ class TokenType(IntEnum):
     STAR = auto() # Multiplication
     SLASH = auto() # Division
 
+    # Comparison operators
+    GT = auto() # greater than >
+    GTEQ = auto() # greater than or equal >=
+    LT = auto() # less than <
+    LTEQ = auto() # less than or equal <=
+    EQEQ = auto() # same as ==
+    BANGEQ = auto() # not equal !=
+
     # Declaration and Assignments
     IDENT = auto() # Variable names
     EQUAL = auto() # Variable assignments

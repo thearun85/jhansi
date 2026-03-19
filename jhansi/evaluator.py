@@ -44,6 +44,18 @@ class Evaluator():
                     return int(left*right)
                 case '/':
                     return int(left//right) # Integer division
+                case '>':
+                    return int(left>right)
+                case '>=':
+                    return int(left>=right)
+                case '<':
+                    return int(left<right)
+                case '<=':
+                    return int(left<=right)
+                case '==':
+                    return int(left==right)
+                case '!=':
+                    return int(left!=right)
             raise SyntaxError(f"[Jhansi] Evaluator: unknown operator: {node.op}") 
         elif isinstance(node, UnaryOp):
             right = self.evaluate(node.right)

@@ -53,6 +53,36 @@ def test_evaluate_unary() -> None:
     result = Evaluator().evaluate(node)
     assert result == -10
 
+def test_evaluate_compare_gt() -> None:
+    node = BinaryOp(Number(5), '>', Number(7))
+    result = Evaluator().evaluate(node)
+    assert result == 0
+
+def test_evaluate_compare_gteq() -> None:
+    node = BinaryOp(Number(5), '>=', Number(7))
+    result = Evaluator().evaluate(node)
+    assert result == 0
+
+def test_evaluate_compare_lt() -> None:
+    node = BinaryOp(Number(5), '<', Number(7))
+    result = Evaluator().evaluate(node)
+    assert result == 1
+
+def test_evaluate_compare_lteq() -> None:
+    node = BinaryOp(Number(5), '<=', Number(7))
+    result = Evaluator().evaluate(node)
+    assert result == 1
+
+def test_evaluate_compare_eqeq() -> None:
+    node = BinaryOp(Number(5), '==', Number(7))
+    result = Evaluator().evaluate(node)
+    assert result == 0
+
+def test_evaluate_compare_bangeq() -> None:
+    node = BinaryOp(Number(5), '!=', Number(7))
+    result = Evaluator().evaluate(node)
+    assert result == 1
+
 def test_evaluate_assign() -> None:
     node = Assign('x', Number(10))
     e = Evaluator()

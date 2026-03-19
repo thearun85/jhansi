@@ -58,8 +58,14 @@ class Lexer:
                 self.pos+=1
                 
             elif c == '=':
-                tokens.append(Token(TokenType.EQUAL, c))
                 self.pos+=1
+                
+                if self.pos < len(self.source) and self.source[self.pos] == '=':
+                    tokens.append(Token(TokenType.EQEQ, '=='))
+                    self.pos+=1
+                else:
+                    tokens.append(Token(TokenType.EQUAL, c))
+                
             elif c == ';':
                 tokens.append(Token(TokenType.SEMI, c))
                 self.pos+=1
@@ -100,6 +106,31 @@ class Lexer:
 
 
             # Arithmetic operation ends
+
+            # Comparison operation starts
+            elif c == '>':
+                self.pos+=1
+                if self.pos < len(self.source) and self.source[self.pos] == '=':
+                    tokens.append(Token(TokenType.GTEQ, '>='))
+                    self.pos+=1
+                else:
+                    tokens.append(Token(TokenType.GT, '>'))
+            elif c == '<':
+                self.pos+=1
+                if self.pos < len(self.source) and self.source[self.pos] == '=':
+                    tokens.append(Token(TokenType.LTEQ, '<='))
+                    self.pos+=1
+                else:
+                    tokens.append(Token(TokenType.LT, '<'))
+            elif c == '!':
+                self.pos+=1
+                if self.pos < len(self.source) and self.source[self.pos] == '=':
+                    tokens.append(Token(TokenType.BANGEQ, '!='))
+                    self.pos+=1
+                else:
+                    raise SyntaxError(f"[Jhansi] Lexer: unexpected character: '{c}'")
+
+            # Comparison operations ends
             else:
                 logger.error(f"[Jhansi] Lexer: unknown character: {c}")
                 raise SyntaxError(f"[Jhansi] Lexer: unknown character: {c}")
