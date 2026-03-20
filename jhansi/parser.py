@@ -62,20 +62,27 @@ class Parser:
             return VarDecl(name, var_type, expr)
 
         elif tok.kind == TokenType.IF:
-            self.eat(TokenType.IF)
-            cond = self.parse_expr()
-            if_block = self.parse_block()
-            
-            if self.peek().kind == TokenType.ELSE:
-                self.eat(TokenType.ELSE)
-                else_block = self.parse_block()
-            else:
-                else_block = None
-                
-            return If(cond, if_block, else_block)
+            return self.parse_if()
         else:
             return self.parse_expr()
 
+    def parse_if(self) -> Node:
+        self.eat(TokenType.IF)
+        cond = self.parse_expr()
+        if_block = self.parse_block()
+
+        if self.peek().kind == TokenType.ELSE:
+            self.eat(TokenType.ELSE)
+            if self.peek().kind == TokenType.IF:
+                else_block = [self.parse_if()]
+            else:
+                else_block = self.parse_block()
+        else:
+            else_block = None
+            
+        return If(cond, if_block, else_block)
+        
+    
     def parse_block(self) -> list[Node]:
         nodes: list[Node] = []
         self.eat(TokenType.LBRACE)

@@ -211,3 +211,27 @@ def test_simple_if_cond_success() -> None:
     assert tokens[8].kind == TokenType.SEMI
     assert tokens[9].kind == TokenType.RBRACE
     assert tokens[10].kind == TokenType.EOF
+
+def test_if_else() -> None:
+    src = "if (true) { var x int;} else {var y bool;}"
+    tokens = Lexer(src).tokenize()
+    assert tokens is not None
+    assert len(tokens) == 18
+    assert tokens[0].kind == TokenType.IF
+    assert tokens[1].kind == TokenType.LPAREN
+    assert tokens[2].kind == TokenType.TRUE
+    assert tokens[3].kind == TokenType.RPAREN
+    assert tokens[4].kind == TokenType.LBRACE
+    assert tokens[5].kind == TokenType.VAR
+    assert tokens[6].kind == TokenType.IDENT
+    assert tokens[7].kind == TokenType.INT
+    assert tokens[8].kind == TokenType.SEMI
+    assert tokens[9].kind == TokenType.RBRACE
+    assert tokens[10].kind == TokenType.ELSE
+    assert tokens[11].kind == TokenType.LBRACE
+    assert tokens[12].kind == TokenType.VAR
+    assert tokens[13].kind == TokenType.IDENT
+    assert tokens[14].kind == TokenType.BOOL
+    assert tokens[15].kind == TokenType.SEMI
+    assert tokens[16].kind == TokenType.RBRACE
+    assert tokens[17].kind == TokenType.EOF

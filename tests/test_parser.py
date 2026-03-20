@@ -186,6 +186,12 @@ def test_parse_if_with_else() -> None:
     nodes = Parser(tokens).parse_program()
     assert len(nodes) == 1
     assert isinstance(nodes[0], If)
+
+def test_parse_if_with_else_if() -> None:
+    tokens = [Token(TokenType.IF, 'IF'), Token(TokenType.LPAREN, '('),Token(TokenType.TRUE, 'true'), Token(TokenType.RPAREN, ')'), Token(TokenType.LBRACE, "{"), Token(TokenType.VAR, "var"), Token(TokenType.IDENT, 'x'), Token(TokenType.INT, 'int'),Token(TokenType.SEMI, ";"), Token(TokenType.RBRACE, "}"), Token(TokenType.ELSE, "else"), Token(TokenType.IF, 'IF'), Token(TokenType.LPAREN, '('),Token(TokenType.TRUE, 'true'), Token(TokenType.RPAREN, ')'),Token(TokenType.LBRACE, "{"), Token(TokenType.VAR, "var"), Token(TokenType.IDENT, 'y'), Token(TokenType.BOOL, 'bool'),Token(TokenType.SEMI, ";"), Token(TokenType.RBRACE, "}"), Token(TokenType.EOF, "")]
+    nodes = Parser(tokens).parse_program()
+    assert len(nodes) == 1
+    assert isinstance(nodes[0], If)
     
 def test_parse_raise_syntax_error() -> None:
     tokens = [Token(TokenType.EOF, "")]
