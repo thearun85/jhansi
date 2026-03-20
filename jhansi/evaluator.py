@@ -1,5 +1,5 @@
 from typing import Any
-from .ast_nodes import Node, Number, Boolean, Char, BinaryOp, UnaryOp, Assign, Var, VarDecl
+from .ast_nodes import Node, Number, Boolean, Char, BinaryOp, UnaryOp, Assign, Var, VarDecl, If
 
 DEFAULT_VALUES: dict[str, Any] = {
     "int": 0,
@@ -70,5 +70,11 @@ class Evaluator():
                 return self.symbols[node.name]
             except KeyError:
                 raise NameError(f"[Jhansi] Evaluator: undeclared variable '{node.name}'")
+        elif isinstance(node, If):
+            execute_if = self.evaluate(node.cond)
+            if execute_if:
+                for stmt in node.block:
+                    result = self.evaluate(stmt)
+            
         else:
             raise SyntaxError(f"[Jhansi] Evaluator: unknown node type: {type(node).__name__}")

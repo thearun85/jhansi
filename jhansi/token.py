@@ -36,10 +36,15 @@ class TokenType(IntEnum):
     TRUE = auto()
     FALSE = auto()
 
+    # Control flow
+    IF = auto()
+
     
     # Code organizers
     LPAREN = auto() # (
     RPAREN = auto() # )
+    LBRACE = auto() # {
+    RBRACE = auto() # }
 
     EOF = auto() # End of File
 
@@ -51,6 +56,7 @@ KEYWORDS: dict[str, TokenType] = {
     "true": TokenType.TRUE,
     "false": TokenType.FALSE,
     "char": TokenType.CHAR,
+    "if": TokenType.IF,
 }
 
 @dataclass

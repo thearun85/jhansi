@@ -194,3 +194,20 @@ def test_char_variable_declaration_with_assignment() -> None:
     assert tokens[4].kind == TokenType.CHAR_LIT
     assert tokens[5].kind == TokenType.SEMI
     assert tokens[6].kind == TokenType.EOF
+
+def test_simple_if_cond_success() -> None:
+    src = "if (true) { var x int;}"
+    tokens = Lexer(src).tokenize()
+    assert tokens is not None
+    assert len(tokens) == 11
+    assert tokens[0].kind == TokenType.IF
+    assert tokens[1].kind == TokenType.LPAREN
+    assert tokens[2].kind == TokenType.TRUE
+    assert tokens[3].kind == TokenType.RPAREN
+    assert tokens[4].kind == TokenType.LBRACE
+    assert tokens[5].kind == TokenType.VAR
+    assert tokens[6].kind == TokenType.IDENT
+    assert tokens[7].kind == TokenType.INT
+    assert tokens[8].kind == TokenType.SEMI
+    assert tokens[9].kind == TokenType.RBRACE
+    assert tokens[10].kind == TokenType.EOF

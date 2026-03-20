@@ -63,3 +63,11 @@ class VarDecl(Node):
 
     def __repr__(self) -> str:
         return f"VarDecl({self.name} {self.var_type} {self.expr})"
+
+class If(Node):
+    def __init__(self, cond: Node, block: list[Node]) -> None:
+        self.cond: Node = cond
+        self.block: list[Node] = block
+
+    def __repr__(self) -> str:
+        return (f"If({self.cond} {self.block})")

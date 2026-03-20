@@ -4,8 +4,6 @@ logger = logging.getLogger(__name__)
 
 from .token import TokenType, Token, KEYWORDS
 
-
-
 class Lexer:
     def __init__(self, source: str) -> None:    
         "Initialize the lexer with the source and the first index position in the program"
@@ -96,6 +94,7 @@ class Lexer:
                 tokens.append(Token(TokenType.SLASH, c))
                 self.pos+=1
 
+            # Expressions starts
             elif c == '(':
                 tokens.append(Token(TokenType.LPAREN, c))
                 self.pos+=1
@@ -103,7 +102,17 @@ class Lexer:
             elif c == ')':
                 tokens.append(Token(TokenType.RPAREN, c))
                 self.pos+=1
+            # Expressions ends
 
+            # Block starts
+            elif c == '{':
+                tokens.append(Token(TokenType.LBRACE, c))
+                self.pos+=1
+
+            elif c == '}':
+                tokens.append(Token(TokenType.RBRACE, c))
+                self.pos+=1
+            # Block ends
 
             # Arithmetic operation ends
 

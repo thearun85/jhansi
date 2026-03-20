@@ -3,7 +3,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 from .token import Token, TokenType
-from .ast_nodes import Node, Number, Boolean, Char, BinaryOp, UnaryOp, Assign, Var, VarDecl
+from .ast_nodes import Node, Number, Boolean, Char, BinaryOp, UnaryOp, Assign, Var, VarDecl, If
 class Parser:
     def __init__(self, tokens: list[Token]) -> None:
         self.tokens: list[Token] = tokens
@@ -52,15 +52,28 @@ class Parser:
             if self.peek().kind in (TokenType.INT, TokenType.BOOL, TokenType.CHAR):
                 var_type = str(self.eat(self.peek().kind).value)
             if self.peek().kind == TokenType.EQUAL:
-                self.eat(TokenType.EQUAL);
+                self.eat(TokenType.EQUAL)
                 expr = self.parse_expr()
             else:
                 expr = None
             self.eat(TokenType.SEMI)
             return VarDecl(name, var_type, expr)
+
+        elif tok.kind == TokenType.IF:
+            self.eat(TokenType.IF)
+            cond = self.parse_expr()
+            block = self.parse_block()
+            return If(cond, block)
         else:
             return self.parse_expr()
 
+    def parse_block(self) -> list[Node]:
+        nodes: list[Node] = []
+        self.eat(TokenType.LBRACE)
+        while self.peek().kind != TokenType.RBRACE:
+            nodes.append(self.parse_statement())
+        self.eat(TokenType.RBRACE)
+        return nodes
     
     def parse_expr(self) -> Node:
         """Process expressions on a line. Anything which doesn't have an assignment entitles for an expression"""

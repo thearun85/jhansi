@@ -1,6 +1,6 @@
 from jhansi.token import TokenType, Token
 from jhansi.parser import Parser
-from jhansi.ast_nodes import Number, Boolean, Char, BinaryOp, UnaryOp, Assign, Var, VarDecl
+from jhansi.ast_nodes import Number, Boolean, Char, BinaryOp, UnaryOp, Assign, Var, VarDecl, If
 import pytest
 import re
 
@@ -174,6 +174,12 @@ def test_parse_vardecl_char_with_assignment() -> None:
     node = Parser(tokens).parse_statement()
     assert node is not None
     assert isinstance(node, VarDecl)
+
+def test_parse_simple_if_cond() -> None:
+    tokens = [Token(TokenType.IF, 'IF'), Token(TokenType.LPAREN, '('),Token(TokenType.TRUE, 'true'), Token(TokenType.RPAREN, ')'), Token(TokenType.LBRACE, "{"), Token(TokenType.VAR, "var"), Token(TokenType.IDENT, 'x'), Token(TokenType.INT, 'int'),Token(TokenType.SEMI, ";"), Token(TokenType.RBRACE, "}"), Token(TokenType.EOF, "")]
+    nodes = Parser(tokens).parse_program()
+    assert len(nodes) == 1
+    assert isinstance(nodes[0], If)
     
 def test_parse_raise_syntax_error() -> None:
     tokens = [Token(TokenType.EOF, "")]
