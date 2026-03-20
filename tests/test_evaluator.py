@@ -146,7 +146,7 @@ def test_evaluate_if_with_else() -> None:
     assert e.symbols["x"] == 0
 
 def test_evaluate_if_with_else_if() -> None:
-    node = If(Boolean(True), [VarDecl('x', "int", None)], [Boolean(True), [VarDecl('x', "int", None)]])
+    node = If(Boolean(True), [VarDecl('x', "int", None)], [If(Boolean(True), [VarDecl('x', "int", None)], None)])
     e = Evaluator()
     result = e.evaluate(node)
     assert len(e.symbols) > 0
