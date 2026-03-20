@@ -51,6 +51,8 @@ class Parser:
             name = str(self.eat(TokenType.IDENT).value)
             if self.peek().kind in (TokenType.INT, TokenType.BOOL, TokenType.CHAR):
                 var_type = str(self.eat(self.peek().kind).value)
+            else:
+                raise SyntaxError(f"[Jhansi] Parser: unknown datatype '{self.peek().value}'")
             if self.peek().kind == TokenType.EQUAL:
                 self.eat(TokenType.EQUAL)
                 expr = self.parse_expr()
