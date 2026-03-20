@@ -73,8 +73,12 @@ class Evaluator():
         elif isinstance(node, If):
             execute_if = self.evaluate(node.cond)
             if execute_if:
-                for stmt in node.block:
+                for stmt in node.if_block:
                     result = self.evaluate(stmt)
+            else:
+                if node.else_block is not None:
+                    for stmt in node.else_block:
+                        result = self.evaluate(stmt)
             
         else:
             raise SyntaxError(f"[Jhansi] Evaluator: unknown node type: {type(node).__name__}")

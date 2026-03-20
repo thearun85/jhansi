@@ -64,8 +64,15 @@ class Parser:
         elif tok.kind == TokenType.IF:
             self.eat(TokenType.IF)
             cond = self.parse_expr()
-            block = self.parse_block()
-            return If(cond, block)
+            if_block = self.parse_block()
+            
+            if self.peek().kind == TokenType.ELSE:
+                self.eat(TokenType.ELSE)
+                else_block = self.parse_block()
+            else:
+                else_block = None
+                
+            return If(cond, if_block, else_block)
         else:
             return self.parse_expr()
 

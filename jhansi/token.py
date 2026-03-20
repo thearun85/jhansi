@@ -38,6 +38,7 @@ class TokenType(IntEnum):
 
     # Control flow
     IF = auto()
+    ELSE = auto()
 
     
     # Code organizers
@@ -57,6 +58,7 @@ KEYWORDS: dict[str, TokenType] = {
     "false": TokenType.FALSE,
     "char": TokenType.CHAR,
     "if": TokenType.IF,
+    "else": TokenType.ELSE,
 }
 
 @dataclass

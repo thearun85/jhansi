@@ -132,7 +132,14 @@ def test_evaluate_vardecl_char_with_assignment() -> None:
     assert e.symbols["x"] == "'a'"
 
 def test_evaluate_simple_if_cond() -> None:
-    node = If(Boolean(True), [VarDecl('x', "int", None)])
+    node = If(Boolean(True), [VarDecl('x', "int", None)], None)
+    e = Evaluator()
+    result = e.evaluate(node)
+    assert len(e.symbols) > 0
+    assert e.symbols["x"] == 0
+
+def test_evaluate_if_with_else() -> None:
+    node = If(Boolean(True), [VarDecl('x', "int", None)], [VarDecl('y', "bool", None)])
     e = Evaluator()
     result = e.evaluate(node)
     assert len(e.symbols) > 0
